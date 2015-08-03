@@ -13,13 +13,15 @@ module.exports =
 #   credentials = { username, password, accountId }
 class AlmexApi
   constructor: (@credentials, @url = "http://38.124.173.74:8989/CkIntegracionGeneral") ->
+    auth = (xml) => new XmlBuilder(xml).buildWith @credentials
+
     @requests =
       createOutputBean:
         endpoint: "CkWService"
-        xml: @_auth read "#{__dirname}/resources/createOutputBean.xml", "utf-8"
+        xml: auth read "#{__dirname}/resources/createOutputBean.xml", "utf-8"
       stocks:
         endpoint: "Jobs"
-        xml: @_auth read "#{__dirname}/resources/stocks.xml", "utf-8"
+        xml: auth read "#{__dirname}/resources/stocks.xml", "utf-8"
 
     @ordersAdapter = new AlmexOrdersAdapter()
 
@@ -60,12 +62,6 @@ class AlmexApi
       body: adapt request.xml
       headers: "Content-Type": "text/xml"
     req.postAsync params
-
-  _auth: (xml) =>
-    new XmlBuilder(xml).buildWith
-      username: process.env.IBUSHAK_USERNAME
-      password: process.env.IBUSHAK_PASSWORD
-      accountId: process.env.IBUSHAK_ACCOUNT
 
   _getResult: (xml, method) =>
     result = try xml["S:Envelope"]["S:Body"][0]["ns2:#{method}Response"][0].return

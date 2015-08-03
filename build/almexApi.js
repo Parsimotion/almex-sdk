@@ -16,21 +16,26 @@
 
   module.exports = AlmexApi = (function() {
     function AlmexApi(credentials, url) {
+      var auth;
       this.credentials = credentials;
       this.url = url != null ? url : "http://38.124.173.74:8989/CkIntegracionGeneral";
       this._getResult = __bind(this._getResult, this);
-      this._auth = __bind(this._auth, this);
       this._doRequest = __bind(this._doRequest, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getStocks = __bind(this.getStocks, this);
+      auth = (function(_this) {
+        return function(xml) {
+          return new XmlBuilder(xml).buildWith(_this.credentials);
+        };
+      })(this);
       this.requests = {
         createOutputBean: {
           endpoint: "CkWService",
-          xml: this._auth(read("" + __dirname + "/resources/createOutputBean.xml", "utf-8"))
+          xml: auth(read("" + __dirname + "/resources/createOutputBean.xml", "utf-8"))
         },
         stocks: {
           endpoint: "Jobs",
-          xml: this._auth(read("" + __dirname + "/resources/stocks.xml", "utf-8"))
+          xml: auth(read("" + __dirname + "/resources/stocks.xml", "utf-8"))
         }
       };
       this.ordersAdapter = new AlmexOrdersAdapter();
@@ -114,14 +119,6 @@
         }
       };
       return req.postAsync(params);
-    };
-
-    AlmexApi.prototype._auth = function(xml) {
-      return new XmlBuilder(xml).buildWith({
-        username: process.env.IBUSHAK_USERNAME,
-        password: process.env.IBUSHAK_PASSWORD,
-        accountId: process.env.IBUSHAK_ACCOUNT
-      });
     };
 
     AlmexApi.prototype._getResult = function(xml, method) {
