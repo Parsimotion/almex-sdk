@@ -1,0 +1,30 @@
+{
+  "name": "almex-sdk",
+  "description": "SDK of the Almex Web Services",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Parsimotion/almex-sdk.git"
+  },
+  "version": "0.0.1",
+  "main": "build/sdk.js",
+  "dependencies": {
+    "bluebird": "^2.3.11",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.8.0",
+    "grunt": "~0.4.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-mocha-test": "~0.10.2",
+    "sinon": "^1.10.3",
+    "sinon-chai": "^2.5.0",
+    "grunt-bump": "^0.3.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
