@@ -70,5 +70,6 @@ class AlmexApi
   _getResult: (xml, method) =>
     result = try xml["S:Envelope"]["S:Body"][0]["ns2:#{method}Response"][0].return
     if not result?
+      # this should never happen
       throw new Error "Los web services de la vida, no son lo que yo esperaba, no son lo que yo creía, no son lo que imaginaba..."
     result
