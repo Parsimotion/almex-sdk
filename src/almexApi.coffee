@@ -9,10 +9,8 @@ AlmexOrdersAdapter = require("./almexOrdersAdapter")
 module.exports =
 #---
 
-###
-  Almex Web Services.
-  credentials = { username, password, accountId }
-###
+# Almex Web Services.
+#   credentials = { username, password, accountId }
 class AlmexApi
   constructor: (@credentials, @url = "http://38.124.173.74:8989/CkIntegracionGeneral") ->
     @requests =

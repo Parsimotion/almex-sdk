@@ -2,9 +2,7 @@ XmlBuilder = require("./xmlBuilder")
 module.exports =
 #---
 
-###
-Converts orders to Almex's output beans.
-###
+# Converts orders to Almex's output beans.
 class AlmexOrdersAdapter
   getOutputBean: (order) =>
     valueOrDefault = (value, defaultValue = "Sin datos") =>

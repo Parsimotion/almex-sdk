@@ -14,7 +14,8 @@ describe "AlmexOrdersAdapter", ->
             "phoneNumber": "01-1111-1111",
             "taxId": "36724222",
             "location": {
-                "address": "Ramón Falcón 6111 - asdasd",
+                "streetName": "Ramón Falcón",
+                "streetNumber": 6111,
                 "state": "Buenos Aires",
                 "city": "Avellaneda",
                 "zipCode": "1408"
@@ -36,7 +37,7 @@ describe "AlmexOrdersAdapter", ->
     new AlmexOrdersAdapter()
       .getOutputBean(order)
       .should.eql
-        calle: "Ramón Falcón 6111 - asdasd"
+        calle: "Ramón Falcón 6111"
         colonia: "Avellaneda"
         cp: "1408"
         estado: "Buenos Aires"
