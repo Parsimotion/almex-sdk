@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.engine.ck.com/">
+   <soapenv:Header>
+      <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
+      <Password xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
+   </soapenv:Header>
+   <soapenv:Body>
+      <ws:requestOutputBean>
+         <output>
+            <direccion>
+               <calle>$calle</calle>
+               <colonia>$colonia</colonia>
+               <cp>$cp</cp>
+               <del_mun>DF</del_mun>
+               <estado>$estado</estado>
+               <nombreRecibe>$nombreRecibe</nombreRecibe>
+               <numeroExt> </numeroExt>
+               <numeroInt> </numeroInt>
+               <referencias>$referencias</referencias>
+               <telefonoContacto1>$telefonoContacto1</telefonoContacto1>
+            </direccion>
+            <idPedido>$idPedido</idPedido>
+            <idTipoSalida>5</idTipoSalida>
+$partidaList
+            <fechaEntrega>$fechaEntrega</fechaEntrega>
+            <cuenta>$accountId</cuenta>
+         </output>
+      </ws:requestOutputBean>
+   </soapenv:Body>
+</soapenv:Envelope>
