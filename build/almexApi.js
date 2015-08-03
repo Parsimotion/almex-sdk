@@ -47,8 +47,7 @@
      */
 
     AlmexApi.prototype.getStocks = function(id) {
-      var xml;
-      xml = new XmlBuilder(this.requests.stocks.xml).buildWith({
+      this.requests.stocks.xml = new XmlBuilder(this.requests.stocks.xml).buildWith({
         id: id
       });
       return this._doRequest(this.requests.stocks).spread((function(_this) {
