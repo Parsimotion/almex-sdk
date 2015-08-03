@@ -18,7 +18,8 @@ module.exports = (grunt) ->
   #-----
   grunt.registerTask "default", "build"
   grunt.registerTask "test", "mochaTest"
-  grunt.registerTask "build", ["clean:build", "coffee", "clean:specs", "bump"]
+  grunt.registerTask "build", ["clean:build", "coffee", "clean:specs"]
+  # grunt bump: increase version, commit, create tag
 
   #------
   #Config
