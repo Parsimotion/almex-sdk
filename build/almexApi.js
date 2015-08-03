@@ -66,12 +66,13 @@
 
     /*
     Create an output bean.
+      options = { log: false }
      */
 
-    AlmexApi.prototype.createOutputBean = function(order, log) {
+    AlmexApi.prototype.createOutputBean = function(order, options) {
       var adapt, outputBean, request;
-      if (log == null) {
-        log = false;
+      if (options == null) {
+        options = {};
       }
       outputBean = this.ordersAdapter.getOutputBean(order);
       request = this.requests.createOutputBean;
@@ -80,7 +81,7 @@
           return new XmlBuilder(xml).buildWith(outputBean);
         };
       })(this);
-      if (log) {
+      if (options.log != null) {
         console.log(adapt(request.xml));
       }
       return this._doRequest(request, adapt).spread((function(_this) {
