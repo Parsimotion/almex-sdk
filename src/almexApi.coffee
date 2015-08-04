@@ -12,7 +12,7 @@ module.exports =
 # Almex Web Services.
 #   credentials = { username, password, accountId }
 class AlmexApi
-  constructor: (@credentials, @url = "http://38.124.173.74:8989/CkIntegracionGeneral") ->
+  constructor: (@credentials, @url = "http://201.157.61.34:8989/CkIntegracionGeneral") ->
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
     @requests =

@@ -18,7 +18,7 @@
     function AlmexApi(credentials, url) {
       var auth;
       this.credentials = credentials;
-      this.url = url != null ? url : "http://38.124.173.74:8989/CkIntegracionGeneral";
+      this.url = url != null ? url : "http://201.157.61.34:8989/CkIntegracionGeneral";
       this._getResult = __bind(this._getResult, this);
       this._doRequest = __bind(this._doRequest, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
