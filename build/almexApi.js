@@ -96,6 +96,7 @@
             if (statusCode !== "OK") {
               throw new Error(JSON.stringify(xml));
             }
+            return xml;
           });
         };
       })(this));

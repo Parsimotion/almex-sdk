@@ -56,6 +56,7 @@ class AlmexApi
 
         if statusCode isnt "OK"
           throw new Error JSON.stringify xml
+        xml
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
