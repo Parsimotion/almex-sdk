@@ -15,7 +15,7 @@ class AlmexOrdersAdapter
     estado: valueOrDefault order.contact.location?.state.substring(0, 250)
     nombreRecibe: "#{order.contact.name || ''}|#{order.contact.contactPerson || ''}".substring(0, 100)
     referencias: valueOrDefault order.notes?.substring(0, 300)
-    telefonoContacto1: valueOrDefault order.contact.phoneNumber?.substring(0, 50)
+    telefonoContacto1: valueOrDefault order.contact.phoneNumber?.substring(0, 20)
     idPedido: order.id
     partidaList: order.lines.map (line) =>
       cantidad: line.quantity
