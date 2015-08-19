@@ -31,7 +31,7 @@
         estado: valueOrDefault((_ref3 = order.contact.location) != null ? _ref3.state.substring(0, 250) : void 0),
         nombreRecibe: ("" + (order.contact.name || '') + "|" + (order.contact.contactPerson || '')).substring(0, 100),
         referencias: valueOrDefault((_ref4 = order.notes) != null ? _ref4.substring(0, 300) : void 0),
-        telefonoContacto1: valueOrDefault((_ref5 = order.contact.phoneNumber) != null ? _ref5.substring(0, 50) : void 0),
+        telefonoContacto1: valueOrDefault((_ref5 = order.contact.phoneNumber) != null ? _ref5.substring(0, 20) : void 0),
         idPedido: order.id,
         partidaList: order.lines.map((function(_this) {
           return function(line) {
