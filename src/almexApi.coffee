@@ -43,18 +43,24 @@ class AlmexApi
     options = { log: false }
   ###
   createOutputBean: (order, options = {}) =>
-    outputBean = @ordersAdapter.getOutputBean order
+    outputBeanXml = @adaptSalesOrder order
     request = @requests.createOutputBean
 
-    adapt = (xml) => new XmlBuilder(xml).buildWith outputBean
-    if options.log? then console.log adapt request.xml
-    @_doRequest(request, adapt).spread (response) =>
+    if options.log? then console.log outputBeanXml
+    @_doRequest(request, => outputBeanXml).spread (response) =>
       xml2js.parseStringAsync(response.body).then (xml) =>
         statusCode = @_getResult(xml, "requestOutputBean")[0]._
 
         if statusCode isnt "OK"
           throw new Error JSON.stringify xml
         xml
+
+  ###
+  Get the xml of an order.
+  ###
+  adaptSalesOrder: (order) =>
+    outputBean = @ordersAdapter.getOutputBean order
+    new XmlBuilder(@requests.createOutputBean).buildWith outputBean
 
   _doRequest: (request, adapt = (i) => i) =>
     params =

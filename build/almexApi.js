@@ -21,6 +21,7 @@
       this.url = url != null ? url : "http://201.157.61.34:8989/CkIntegracionGeneral";
       this._getResult = __bind(this._getResult, this);
       this._doRequest = __bind(this._doRequest, this);
+      this.adaptSalesOrder = __bind(this.adaptSalesOrder, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
@@ -71,21 +72,20 @@
      */
 
     AlmexApi.prototype.createOutputBean = function(order, options) {
-      var adapt, outputBean, request;
+      var outputBeanXml, request;
       if (options == null) {
         options = {};
       }
-      outputBean = this.ordersAdapter.getOutputBean(order);
+      outputBeanXml = this.adaptSalesOrder(order);
       request = this.requests.createOutputBean;
-      adapt = (function(_this) {
-        return function(xml) {
-          return new XmlBuilder(xml).buildWith(outputBean);
-        };
-      })(this);
       if (options.log != null) {
-        console.log(adapt(request.xml));
+        console.log(outputBeanXml);
       }
-      return this._doRequest(request, adapt).spread((function(_this) {
+      return this._doRequest(request, (function(_this) {
+        return function() {
+          return outputBeanXml;
+        };
+      })(this)).spread((function(_this) {
         return function(response) {
           return xml2js.parseStringAsync(response.body).then(function(xml) {
             var statusCode;
@@ -97,6 +97,17 @@
           });
         };
       })(this));
+    };
+
+
+    /*
+    Get the xml of an order.
+     */
+
+    AlmexApi.prototype.adaptSalesOrder = function(order) {
+      var outputBean;
+      outputBean = this.ordersAdapter.getOutputBean(order);
+      return new XmlBuilder(this.requests.createOutputBean).buildWith(outputBean);
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {
