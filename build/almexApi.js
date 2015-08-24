@@ -46,10 +46,7 @@
     Get all the stocks.
      */
 
-    AlmexApi.prototype.getStocks = function(id) {
-      this.requests.stocks.xml = new XmlBuilder(this.requests.stocks.xml).buildWith({
-        id: id
-      });
+    AlmexApi.prototype.getStocks = function() {
       return this._doRequest(this.requests.stocks).spread((function(_this) {
         return function(response) {
           return xml2js.parseStringAsync(response.body).then(function(xml) {

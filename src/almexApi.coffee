@@ -28,9 +28,7 @@ class AlmexApi
   ###
   Get all the stocks.
   ###
-  getStocks: (id) =>
-    @requests.stocks.xml = new XmlBuilder(@requests.stocks.xml).buildWith id: id
-
+  getStocks: =>
     @_doRequest(@requests.stocks).spread (response) =>
       xml2js.parseStringAsync(response.body).then (xml) =>
         stocks = @_getResult xml, "ProductoInventarioMethod"
