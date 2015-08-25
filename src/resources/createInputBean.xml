@@ -14,8 +14,8 @@
                 <totalRegistros>$total</totalRegistros>
                 <cantidadTotalSkus>$cantidadTotal</cantidadTotalSkus>
 
-                <idAlmacen>1</idAlmacen> <!-- NO LO SÉ -->
-                <idProveedor>4795</idProveedor> <!-- NO LO SÉ -->
+                <idAlmacen>1</idAlmacen> <!-- TODO: Completar esto cuando Almex nos pase el numerito -->
+                <idProveedor>4795</idProveedor> <!-- TODO: Completar esto cuando Almex nos pase el numerito -->
 $listProducto
             </input>
       </ws:requestInputBean>

@@ -33,10 +33,28 @@ describe "AlmexInboundsAdapter", ->
           cantidad: 5
           idWb: 1
           ean: "B0CACACA"
+
+          # TODO: Sacar esto cuando Almex haga estos campos opcionales
+          idVertical: "11"
+          modelo: "112-p1213224mb"
+          marca: "Tambourine"
+          vertical: "Bebitos"
+          departamento: "Mujer"
+          categoria: "Ropa"
+          subcategoria: "Ropa"
         ,
           sku: "233"
           descripcion: "Estampilla"
           cantidad: 1
           idWb: 2
           ean: "0CA0CA"
+
+          # TODO: Sacar esto cuando Almex haga estos campos opcionales
+          idVertical: "11"
+          modelo: "112-p1213224mb"
+          marca: "Tambourine"
+          vertical: "Bebitos"
+          departamento: "Mujer"
+          categoria: "Ropa"
+          subcategoria: "Ropa"
         ]

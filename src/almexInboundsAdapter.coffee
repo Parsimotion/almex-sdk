@@ -20,3 +20,12 @@ class AlmexInboundsAdapter
       cantidad: product.quantity
       idWb: i + 1
       ean: product.barcode || "N/A"
+
+      # TODO: Sacar esto cuando Almex haga estos campos opcionales
+      idVertical: "11"
+      modelo: "112-p1213224mb"
+      marca: "Tambourine"
+      vertical: "Bebitos"
+      departamento: "Mujer"
+      categoria: "Ropa"
+      subcategoria: "Ropa"

@@ -26,7 +26,14 @@
               descripcion: product.description,
               cantidad: product.quantity,
               idWb: i + 1,
-              ean: product.barcode || "N/A"
+              ean: product.barcode || "N/A",
+              idVertical: "11",
+              modelo: "112-p1213224mb",
+              marca: "Tambourine",
+              vertical: "Bebitos",
+              departamento: "Mujer",
+              categoria: "Ropa",
+              subcategoria: "Ropa"
             };
           };
         })(this))
