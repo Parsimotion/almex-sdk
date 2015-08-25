@@ -29,14 +29,13 @@ class AlmexApi
   Get all the stocks.
   ###
   getStocks: =>
-    @_doRequest(@requests.stocks).spread (response) =>
-      xml2js.parseStringAsync(response.body).then (xml) =>
-        stocks = @_getResult xml, "ProductoInventarioMethod"
+    @_doRequest(@requests.stocks).then (xml) =>
+      stocks = @_getResult xml, "ProductoInventarioMethod"
 
-        stocks.map (it) =>
-          identifier: it.productoSku[0]
-          name: it.descripcion[0]
-          stock: it.cantidadInventario[0]
+      stocks.map (it) =>
+        identifier: it.productoSku[0]
+        name: it.descripcion[0]
+        stock: it.cantidadInventario[0]
 
   ###
   Create an output bean.
@@ -47,13 +46,12 @@ class AlmexApi
     request = @requests.createOutputBean
 
     if options.log? then console.log outputBeanXml
-    @_doRequest(request, => outputBeanXml).spread (response) =>
-      xml2js.parseStringAsync(response.body).then (xml) =>
-        statusCode = @_getResult(xml, "requestOutputBean")[0]._
+    @_doRequest(request, => outputBeanXml).then (xml) =>
+      statusCode = @_getResult(xml, "requestOutputBean")[0]._
 
-        if statusCode isnt "OK"
-          throw new Error JSON.stringify xml
-        xml
+      if statusCode isnt "OK"
+        throw new Error JSON.stringify xml
+      xml
 
   ###
   Create an input bean
@@ -67,10 +65,20 @@ class AlmexApi
       (barcode: String) # optional
     ]
   }
+  options = { log: false }
   ###
-  createInputBean: (inbound) =>
+  createInputBean: (inbound, options = {}) =>
+    inputBeanXml = @adaptPurchaseOrder inbound
     request = @requests.createInputBean
-    new XmlBuilder(request.xml).buildWith inputBean
+
+    if options.log? then console.log inputBeanXml
+    @_doRequest(request, => inputBeanXml).spread (response) =>
+      xml2js.parseStringAsync(response.body).then (xml) =>
+        statusCode = @_getResult(xml, "requestInputBean")[0]._
+
+        if statusCode isnt "OK"
+          throw new Error JSON.stringify xml
+        xml
 
   ###
   Get the xml of a sales order.
@@ -90,7 +98,9 @@ class AlmexApi
       url: "#{@url}/#{request.endpoint}"
       body: adapt request.xml
       headers: "Content-Type": "text/xml"
-    req.postAsync params
+
+    req.postAsync(params).spread (response) =>
+      xml2js.parseStringAsync response.body
 
   _getResult: (xml, method) =>
     result = try xml["S:Envelope"]["S:Body"][0]["ns2:#{method}Response"][0].return
