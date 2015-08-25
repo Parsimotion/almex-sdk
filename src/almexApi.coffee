@@ -77,7 +77,7 @@ class AlmexApi
   ###
   adaptSalesOrder: (order) =>
     outputBean = @ordersAdapter.getOutputBean order
-    new XmlBuilder(@requests.createOutputBean).buildWith outputBean
+    new XmlBuilder(@requests.createOutputBean.xml).buildWith outputBean
 
   ###
   Get the xml of a purchase order.

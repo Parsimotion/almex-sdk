@@ -107,7 +107,7 @@
     AlmexApi.prototype.adaptSalesOrder = function(order) {
       var outputBean;
       outputBean = this.ordersAdapter.getOutputBean(order);
-      return new XmlBuilder(this.requests.createOutputBean).buildWith(outputBean);
+      return new XmlBuilder(this.requests.createOutputBean.xml).buildWith(outputBean);
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {
