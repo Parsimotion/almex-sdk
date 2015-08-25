@@ -1,5 +1,5 @@
 (function() {
-  var AlmexApi, AlmexOrdersAdapter, Promise, XmlBuilder, read, req, xml2js,
+  var AlmexApi, AlmexOrdersAdapter, Promise, XmlBuilder, read, req, xml2js, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Promise = require("bluebird");
@@ -14,6 +14,8 @@
 
   AlmexOrdersAdapter = require("./almexOrdersAdapter");
 
+  _ = require("lodash");
+
   module.exports = AlmexApi = (function() {
     function AlmexApi(credentials, url) {
       var auth;
@@ -21,7 +23,9 @@
       this.url = url != null ? url : "http://201.157.61.34:8989/CkIntegracionGeneral";
       this._getResult = __bind(this._getResult, this);
       this._doRequest = __bind(this._doRequest, this);
+      this.adaptPurchaseOrder = __bind(this.adaptPurchaseOrder, this);
       this.adaptSalesOrder = __bind(this.adaptSalesOrder, this);
+      this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
@@ -29,16 +33,23 @@
           return new XmlBuilder(xml).buildWith(_this.credentials);
         };
       })(this);
-      this.requests = {
+      this.requests = _.mapValues({
+        createInputBean: {
+          endpoint: "CkWService"
+        },
         createOutputBean: {
-          endpoint: "CkWService",
-          xml: auth(read("" + __dirname + "/resources/createOutputBean.xml", "utf-8"))
+          endpoint: "CkWService"
         },
         stocks: {
-          endpoint: "Jobs",
-          xml: auth(read("" + __dirname + "/resources/stocks.xml", "utf-8"))
+          endpoint: "Jobs"
         }
-      };
+      }, (function(_this) {
+        return function(val, name) {
+          return _.assign(val, {
+            xml: auth(read("" + __dirname + "/resources/" + name + ".xml", "utf-8"))
+          });
+        };
+      })(this));
       this.ordersAdapter = new AlmexOrdersAdapter();
     }
 
@@ -48,18 +59,16 @@
      */
 
     AlmexApi.prototype.getStocks = function() {
-      return this._doRequest(this.requests.stocks).spread((function(_this) {
-        return function(response) {
-          return xml2js.parseStringAsync(response.body).then(function(xml) {
-            var stocks;
-            stocks = _this._getResult(xml, "ProductoInventarioMethod");
-            return stocks.map(function(it) {
-              return {
-                identifier: it.productoSku[0],
-                name: it.descripcion[0],
-                stock: it.cantidadInventario[0]
-              };
-            });
+      return this._doRequest(this.requests.stocks).then((function(_this) {
+        return function(xml) {
+          var stocks;
+          stocks = _this._getResult(xml, "ProductoInventarioMethod");
+          return stocks.map(function(it) {
+            return {
+              identifier: it.productoSku[0],
+              name: it.descripcion[0],
+              stock: it.cantidadInventario[0]
+            };
           });
         };
       })(this));
@@ -85,11 +94,53 @@
         return function() {
           return outputBeanXml;
         };
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var statusCode;
+          statusCode = _this._getResult(xml, "requestOutputBean")[0]._;
+          if (statusCode !== "OK") {
+            throw new Error(JSON.stringify(xml));
+          }
+          return xml;
+        };
+      })(this));
+    };
+
+
+    /*
+    Create an input bean
+    inbound = {
+      id: Number
+      date: Date
+      products: [
+        id: String
+        quantity: Number
+        description: String
+        (barcode: String) # optional
+      ]
+    }
+    options = { log: false }
+     */
+
+    AlmexApi.prototype.createInputBean = function(inbound, options) {
+      var inputBeanXml, request;
+      if (options == null) {
+        options = {};
+      }
+      inputBeanXml = this.adaptPurchaseOrder(inbound);
+      request = this.requests.createInputBean;
+      if (options.log != null) {
+        console.log(inputBeanXml);
+      }
+      return this._doRequest(request, (function(_this) {
+        return function() {
+          return inputBeanXml;
+        };
       })(this)).spread((function(_this) {
         return function(response) {
           return xml2js.parseStringAsync(response.body).then(function(xml) {
             var statusCode;
-            statusCode = _this._getResult(xml, "requestOutputBean")[0]._;
+            statusCode = _this._getResult(xml, "requestInputBean")[0]._;
             if (statusCode !== "OK") {
               throw new Error(JSON.stringify(xml));
             }
@@ -101,13 +152,24 @@
 
 
     /*
-    Get the xml of an order.
+    Get the xml of a sales order.
      */
 
     AlmexApi.prototype.adaptSalesOrder = function(order) {
       var outputBean;
       outputBean = this.ordersAdapter.getOutputBean(order);
       return new XmlBuilder(this.requests.createOutputBean.xml).buildWith(outputBean);
+    };
+
+
+    /*
+    Get the xml of a purchase order.
+     */
+
+    AlmexApi.prototype.adaptPurchaseOrder = function(inbound) {
+      var inputBean;
+      inputBean = this.inboundsAdapter.getInputBean(inbound);
+      return new XmlBuilder(this.requests.createInputBean.xml).buildWith(inputBean);
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {
@@ -126,7 +188,11 @@
           "Content-Type": "text/xml"
         }
       };
-      return req.postAsync(params);
+      return req.postAsync(params).spread((function(_this) {
+        return function(response) {
+          return xml2js.parseStringAsync(response.body);
+        };
+      })(this));
     };
 
     AlmexApi.prototype._getResult = function(xml, method) {
