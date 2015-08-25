@@ -5,6 +5,7 @@ read = (require "fs").readFileSync
 
 XmlBuilder = require("./xmlBuilder")
 AlmexOrdersAdapter = require("./almexOrdersAdapter")
+AlmexInboundsAdapter = require("./almexInboundsAdapter")
 _ = require("lodash")
 
 module.exports =
@@ -24,6 +25,7 @@ class AlmexApi
       auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
     @ordersAdapter = new AlmexOrdersAdapter()
+    @inboundsAdapter = new AlmexInboundsAdapter()
 
   ###
   Get all the stocks.

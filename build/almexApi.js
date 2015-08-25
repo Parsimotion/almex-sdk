@@ -1,5 +1,5 @@
 (function() {
-  var AlmexApi, AlmexOrdersAdapter, Promise, XmlBuilder, read, req, xml2js, _,
+  var AlmexApi, AlmexInboundsAdapter, AlmexOrdersAdapter, Promise, XmlBuilder, read, req, xml2js, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Promise = require("bluebird");
@@ -13,6 +13,8 @@
   XmlBuilder = require("./xmlBuilder");
 
   AlmexOrdersAdapter = require("./almexOrdersAdapter");
+
+  AlmexInboundsAdapter = require("./almexInboundsAdapter");
 
   _ = require("lodash");
 
@@ -51,6 +53,7 @@
         };
       })(this));
       this.ordersAdapter = new AlmexOrdersAdapter();
+      this.inboundsAdapter = new AlmexInboundsAdapter();
     }
 
 
