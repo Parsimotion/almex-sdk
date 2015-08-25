@@ -31,12 +31,12 @@ describe "AlmexInboundsAdapter", ->
           sku: "232"
           descripcion: "Camiseta de River Plate"
           cantidad: 5
-          idWb: 0
+          idWb: 1
           ean: "B0CACACA"
         ,
           sku: "233"
           descripcion: "Estampilla"
           cantidad: 1
-          idWb: 1
+          idWb: 2
           ean: "0CA0CA"
         ]

@@ -25,7 +25,7 @@
               sku: product.id,
               descripcion: product.description,
               cantidad: product.quantity,
-              idWb: i,
+              idWb: i + 1,
               ean: product.barcode || "N/A"
             };
           };

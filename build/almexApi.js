@@ -204,7 +204,7 @@
         } catch (_error) {}
       })();
       if (result == null) {
-        throw new Error("Los web services de la vida, no son lo que yo esperaba, no son lo que yo creía, no son lo que imaginaba...");
+        throw new Error("Los web services de la vida, no son lo que yo esperaba, no son lo que yo creía, no son lo que imaginaba...\n" + JSON.stringify(xml));
       }
       return result;
     };
