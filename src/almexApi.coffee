@@ -5,6 +5,7 @@ read = (require "fs").readFileSync
 
 XmlBuilder = require("./xmlBuilder")
 AlmexOrdersAdapter = require("./almexOrdersAdapter")
+_ = require("lodash")
 
 module.exports =
 #---
@@ -15,13 +16,12 @@ class AlmexApi
   constructor: (@credentials, @url = "http://201.157.61.34:8989/CkIntegracionGeneral") ->
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
-    @requests =
-      createOutputBean:
-        endpoint: "CkWService"
-        xml: auth read "#{__dirname}/resources/createOutputBean.xml", "utf-8"
-      stocks:
-        endpoint: "Jobs"
-        xml: auth read "#{__dirname}/resources/stocks.xml", "utf-8"
+    @requests = _.mapValues {
+      createInputBean: endpoint: "CkWService"
+      createOutputBean: endpoint: "CkWService"
+      stocks: endpoint: "Jobs"
+    }, (val, name) => _.assign val, xml:
+      auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
     @ordersAdapter = new AlmexOrdersAdapter()
 
@@ -56,11 +56,34 @@ class AlmexApi
         xml
 
   ###
-  Get the xml of an order.
+  Create an input bean
+  inbound = {
+    id: Number
+    date: Date
+    products: [
+      sku: String
+      quantity: Number
+      description: String
+      (barcode: String) # optional
+    ]
+  }
+  ###
+  createInputBean: (inbound) =>
+    request = @requests.createInputBean
+    new XmlBuilder(request.xml).buildWith inputBean
+
+  ###
+  Get the xml of a sales order.
   ###
   adaptSalesOrder: (order) =>
     outputBean = @ordersAdapter.getOutputBean order
     new XmlBuilder(@requests.createOutputBean).buildWith outputBean
+
+  ###
+  Get the xml of a purchase order.
+  ###
+  adaptPurchaseOrder: (inbound) =>
+    new XmlBuilder(@requests.createInputBean.xml).buildWith inbound
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
