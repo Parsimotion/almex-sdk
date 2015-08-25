@@ -74,13 +74,12 @@ class AlmexApi
     request = @requests.createInputBean
 
     if options.log? then console.log inputBeanXml
-    @_doRequest(request, => inputBeanXml).spread (response) =>
-      xml2js.parseStringAsync(response.body).then (xml) =>
-        statusCode = @_getResult(xml, "requestInputBean")[0]._
+    @_doRequest(request, => inputBeanXml).then (xml) =>
+      statusCode = @_getResult(xml, "requestInputBean")[0]._
 
-        if statusCode isnt "OK"
-          throw new Error JSON.stringify xml
-        xml
+      if statusCode isnt "OK"
+        throw new Error JSON.stringify xml
+      xml
 
   ###
   Get the xml of a sales order.

@@ -139,16 +139,14 @@
         return function() {
           return inputBeanXml;
         };
-      })(this)).spread((function(_this) {
-        return function(response) {
-          return xml2js.parseStringAsync(response.body).then(function(xml) {
-            var statusCode;
-            statusCode = _this._getResult(xml, "requestInputBean")[0]._;
-            if (statusCode !== "OK") {
-              throw new Error(JSON.stringify(xml));
-            }
-            return xml;
-          });
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var statusCode;
+          statusCode = _this._getResult(xml, "requestInputBean")[0]._;
+          if (statusCode !== "OK") {
+            throw new Error(JSON.stringify(xml));
+          }
+          return xml;
         };
       })(this));
     };
