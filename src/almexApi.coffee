@@ -59,7 +59,7 @@ class AlmexApi
     id: Number
     date: Date
     products: [
-      sku: String
+      id: String
       quantity: Number
       description: String
       (barcode: String) # optional
@@ -91,7 +91,8 @@ class AlmexApi
   Get the xml of a purchase order.
   ###
   adaptPurchaseOrder: (inbound) =>
-    new XmlBuilder(@requests.createInputBean.xml).buildWith inbound
+    inputBean = @inboundsAdapter.getInputBean inbound
+    new XmlBuilder(@requests.createInputBean.xml).buildWith inputBean
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
