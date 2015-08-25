@@ -60,7 +60,7 @@ class AlmexApi
   ###
   adaptSalesOrder: (order) =>
     outputBean = @ordersAdapter.getOutputBean order
-    new XmlBuilder(@requests.createOutputBean).buildWith outputBean
+    new XmlBuilder(@requests.createOutputBean.xml).buildWith outputBean
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
