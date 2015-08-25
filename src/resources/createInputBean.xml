@@ -1,0 +1,23 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.engine.ck.com/">
+   <soapenv:Header>
+        <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
+        <Password xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
+   </soapenv:Header>
+   <soapenv:Body>
+      <ws:requestInputBean>
+            <input>
+                <tipoOdc>Firme</tipoOdc>
+                <cuenta>$accountId</cuenta>
+
+                <idOdc>$id</idOdc>
+                <fechaEntrega>$fecha</fechaEntrega> <!-- 25/08/2015 -->
+                <totalRegistros>$total</totalRegistros>
+                <cantidadTotalSkus>$cantidadTotal</cantidadTotalSkus>
+
+                <idAlmacen>NO SÉ</idAlmacen>
+                <idProveedor>NO SÉ</idProveedor>
+$listProducto
+            </input>
+      </ws:requestInputBean>
+   </soapenv:Body>
+</soapenv:Envelope>
