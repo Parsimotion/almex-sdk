@@ -1,4 +1,5 @@
 XmlBuilder = require("./xmlBuilder")
+moment = require("moment")
 module.exports =
 #---
 
@@ -21,7 +22,7 @@ class AlmexOrdersAdapter
       cantidad: line.quantity
       idPartida: 1 #fixed
       skuId: line.variation.barcode?.substring(0, 50) || ''
-    fechaEntrega: order.date.substr 0, order.date.indexOf("T")
+    fechaEntrega: moment(order.date).format("YYYY-MM-DD")
 
   _buildAddress: (location) =>
     address = "#{location.streetName} #{location.streetNumber}"

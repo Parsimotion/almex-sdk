@@ -1,8 +1,10 @@
 (function() {
-  var AlmexInboundsAdapter, XmlBuilder, _,
+  var AlmexInboundsAdapter, XmlBuilder, moment, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   XmlBuilder = require("./xmlBuilder");
+
+  moment = require("moment");
 
   _ = require("lodash");
 
@@ -16,7 +18,7 @@
       date = inbound.date.toISOString();
       return {
         id: inbound.id,
-        fecha: date.substr(0, date.indexOf("T")).split("-").reverse().join("/"),
+        fecha: moment(date).format("DD/MM/YYYY"),
         total: inbound.products.length,
         cantidadTotal: _.sum(inbound.products, "quantity"),
         listProducto: inbound.products.map((function(_this) {

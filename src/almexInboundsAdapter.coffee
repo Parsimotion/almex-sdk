@@ -1,4 +1,5 @@
 XmlBuilder = require("./xmlBuilder")
+moment = require("moment")
 _ = require("lodash")
 module.exports =
 #---
@@ -9,9 +10,7 @@ class AlmexInboundsAdapter
     date = inbound.date.toISOString()
 
     id: inbound.id
-    fecha: date
-      .substr(0, date.indexOf("T"))
-      .split("-").reverse().join "/"
+    fecha: moment(date).format("DD/MM/YYYY")
     total: inbound.products.length
     cantidadTotal: _.sum inbound.products, "quantity"
     listProducto: inbound.products.map (product, i) =>

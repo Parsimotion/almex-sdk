@@ -9,7 +9,8 @@
   "main": "build/almexApi.js",
   "dependencies": {
     "bluebird": "^2.3.11",
-    "lodash": "^3.10.0"
+    "lodash": "^3.10.0",
+    "moment": "^2.10.6"
   },
   "devDependencies": {
     "coffee-script": "^1.8.0",

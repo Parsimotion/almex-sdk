@@ -1,8 +1,10 @@
 (function() {
-  var AlmexOrdersAdapter, XmlBuilder,
+  var AlmexOrdersAdapter, XmlBuilder, moment,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   XmlBuilder = require("./xmlBuilder");
+
+  moment = require("moment");
 
   module.exports = AlmexOrdersAdapter = (function() {
     function AlmexOrdersAdapter() {
@@ -43,7 +45,7 @@
             };
           };
         })(this)),
-        fechaEntrega: order.date.substr(0, order.date.indexOf("T"))
+        fechaEntrega: moment(order.date).format("YYYY-MM-DD")
       };
     };
 
