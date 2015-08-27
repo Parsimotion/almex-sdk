@@ -67,11 +67,11 @@
           var stocks;
           stocks = _this._getResult(xml, "ProductoInventarioMethod");
           return stocks.map(function(it) {
-            return {
+            return _.assign(it, {
               identifier: it.productoSku[0],
               name: it.descripcion[0],
               stock: it.cantidadInventario[0]
-            };
+            });
           });
         };
       })(this));

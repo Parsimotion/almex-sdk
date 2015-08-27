@@ -35,9 +35,10 @@ class AlmexApi
       stocks = @_getResult xml, "ProductoInventarioMethod"
 
       stocks.map (it) =>
-        identifier: it.productoSku[0]
-        name: it.descripcion[0]
-        stock: it.cantidadInventario[0]
+        _.assign it,
+          identifier: it.productoSku[0]
+          name: it.descripcion[0]
+          stock: it.cantidadInventario[0]
 
   ###
   Create an output bean.
