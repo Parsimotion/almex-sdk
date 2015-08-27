@@ -10,7 +10,8 @@
   "dependencies": {
     "bluebird": "^2.3.11",
     "lodash": "^3.10.0",
-    "moment": "^2.10.6"
+    "moment": "^2.10.6",
+    "xml2js": "^0.4.10"
   },
   "devDependencies": {
     "coffee-script": "^1.8.0",
