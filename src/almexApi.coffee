@@ -5,6 +5,8 @@ read = (require "fs").readFileSync
 
 XmlBuilder = require("./xmlBuilder")
 AlmexOrdersAdapter = require("./almexOrdersAdapter")
+AlmexInboundsAdapter = require("./almexInboundsAdapter")
+_ = require("lodash")
 
 module.exports =
 #---
@@ -15,25 +17,25 @@ class AlmexApi
   constructor: (@credentials, @url = "http://201.157.61.34:8989/CkIntegracionGeneral") ->
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
-    @requests =
-      createOutputBean:
-        endpoint: "CkWService"
-        xml: auth read "#{__dirname}/resources/createOutputBean.xml", "utf-8"
-      stocks:
-        endpoint: "Jobs"
-        xml: auth read "#{__dirname}/resources/stocks.xml", "utf-8"
+    @requests = _.mapValues {
+      createInputBean: endpoint: "CkWService"
+      createOutputBean: endpoint: "CkWService"
+      stocks: endpoint: "Jobs"
+    }, (val, name) => _.assign val, xml:
+      auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
     @ordersAdapter = new AlmexOrdersAdapter()
+    @inboundsAdapter = new AlmexInboundsAdapter()
 
   ###
   Get all the stocks.
   ###
   getStocks: =>
-    @_doRequest(@requests.stocks).spread (response) =>
-      xml2js.parseStringAsync(response.body).then (xml) =>
-        stocks = @_getResult xml, "ProductoInventarioMethod"
+    @_doRequest(@requests.stocks).then (xml) =>
+      stocks = @_getResult xml, "ProductoInventarioMethod"
 
-        stocks.map (it) =>
+      stocks.map (it) =>
+        _.assign it,
           identifier: it.productoSku[0]
           name: it.descripcion[0]
           stock: it.cantidadInventario[0]
@@ -47,31 +49,65 @@ class AlmexApi
     request = @requests.createOutputBean
 
     if options.log? then console.log outputBeanXml
-    @_doRequest(request, => outputBeanXml).spread (response) =>
-      xml2js.parseStringAsync(response.body).then (xml) =>
-        statusCode = @_getResult(xml, "requestOutputBean")[0]._
+    @_doRequest(request, => outputBeanXml).then (xml) =>
+      statusCode = @_getResult(xml, "requestOutputBean")[0]._
 
-        if statusCode isnt "OK"
-          throw new Error JSON.stringify xml
-        xml
+      if statusCode isnt "OK"
+        throw new Error JSON.stringify xml
+      xml
 
   ###
-  Get the xml of an order.
+  Create an input bean
+  inbound = {
+    id: Number
+    date: Date
+    products: [
+      id: String
+      quantity: Number
+      description: String
+      (barcode: String) # optional
+    ]
+  }
+  options = { log: false }
+  ###
+  createInputBean: (inbound, options = {}) =>
+    inputBeanXml = @adaptPurchaseOrder inbound
+    request = @requests.createInputBean
+
+    if options.log? then console.log inputBeanXml
+    @_doRequest(request, => inputBeanXml).then (xml) =>
+      statusCode = @_getResult(xml, "requestInputBean")[0]._
+
+      if statusCode isnt "OK"
+        throw new Error JSON.stringify xml
+      xml
+
+  ###
+  Get the xml of a sales order.
   ###
   adaptSalesOrder: (order) =>
     outputBean = @ordersAdapter.getOutputBean order
     new XmlBuilder(@requests.createOutputBean.xml).buildWith outputBean
+
+  ###
+  Get the xml of a purchase order.
+  ###
+  adaptPurchaseOrder: (inbound) =>
+    inputBean = @inboundsAdapter.getInputBean inbound
+    new XmlBuilder(@requests.createInputBean.xml).buildWith inputBean
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
       url: "#{@url}/#{request.endpoint}"
       body: adapt request.xml
       headers: "Content-Type": "text/xml"
-    req.postAsync params
+
+    req.postAsync(params).spread (response) =>
+      xml2js.parseStringAsync response.body
 
   _getResult: (xml, method) =>
     result = try xml["S:Envelope"]["S:Body"][0]["ns2:#{method}Response"][0].return
     if not result?
       # this should never happen
-      throw new Error "Los web services de la vida, no son lo que yo esperaba, no son lo que yo creía, no son lo que imaginaba..."
+      throw new Error "Los web services de la vida, no son lo que yo esperaba, no son lo que yo creía, no son lo que imaginaba...\n" + JSON.stringify xml
     result
