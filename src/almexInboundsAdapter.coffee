@@ -19,11 +19,3 @@ class AlmexInboundsAdapter
       cantidad: product.quantity
       idWb: i + 1
       ean: product.barcode || "N/A"
-
-      idVertical: "-"
-      modelo: "-"
-      marca: "-"
-      vertical: "-"
-      departamento: "-"
-      categoria: "-"
-      subcategoria: "-"

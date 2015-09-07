@@ -33,27 +33,10 @@ describe "AlmexInboundsAdapter", ->
           cantidad: 5
           idWb: 1
           ean: "B0CACACA"
-
-          idVertical: "-"
-          modelo: "-"
-          marca: "-"
-          vertical: "-"
-          departamento: "-"
-          categoria: "-"
-          subcategoria: "-"
-
         ,
           sku: "233"
           descripcion: "Estampilla"
           cantidad: 1
           idWb: 2
           ean: "0CA0CA"
-
-          idVertical: "-"
-          modelo: "-"
-          marca: "-"
-          vertical: "-"
-          departamento: "-"
-          categoria: "-"
-          subcategoria: "-"
         ]
