@@ -15,7 +15,7 @@
       xml = this.xml;
       _.forOwn(data, (function(_this) {
         return function(value, key) {
-          return xml = xml.replace("$" + key, (function() {
+          return xml = xml.replace(new RegExp("\\$" + key, "g"), (function() {
             switch (typeof value) {
               case "string":
               case "number":
