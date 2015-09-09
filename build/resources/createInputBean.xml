@@ -14,7 +14,7 @@
                 <totalRegistros>$total</totalRegistros>
                 <cantidadTotalSkus>$cantidadTotal</cantidadTotalSkus>
 
-                <idAlmacen>$accountId</idAlmacen>
+                <idAlmacen>1256</idAlmacen>
                 <idProveedor>1</idProveedor>
 $listProducto
             </input>

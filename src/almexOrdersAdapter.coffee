@@ -23,6 +23,7 @@ class AlmexOrdersAdapter
       idPartida: 1 #fixed
       skuId: line.variation.barcode?.substring(0, 50) || ''
     fechaEntrega: moment(order.date).format("YYYY-MM-DD")
+    zpl2: order.zpl2
 
   _buildAddress: (location) =>
     address = "#{location.streetName} #{location.streetNumber}"

@@ -31,6 +31,7 @@ describe "AlmexOrdersAdapter", ->
         ],
         "date": "2015-04-15T19:38:58",
         "notes": "Es un pedido muy importante!!!",
+        "zpl2": "Bla bla bla bla (etiqueta de envío)",
         "id": 1227
       }
 
@@ -51,3 +52,4 @@ describe "AlmexOrdersAdapter", ->
           skuId: "MODEMWIFI22UNIQUE"
         ]
         fechaEntrega: "2015-04-15"
+        zpl2: "Bla bla bla bla (etiqueta de envío)"
