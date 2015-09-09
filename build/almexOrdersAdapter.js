@@ -45,7 +45,8 @@
             };
           };
         })(this)),
-        fechaEntrega: moment(order.date).format("YYYY-MM-DD")
+        fechaEntrega: moment(order.date).format("YYYY-MM-DD"),
+        zpl2: order.zpl2
       };
     };
 

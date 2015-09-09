@@ -24,6 +24,7 @@
 $partidaList
             <fechaEntrega>$fechaEntrega</fechaEntrega>
             <cuenta>$accountId</cuenta>
+            <atributo1>$zpl2</atributo1>
          </output>
       </ws:requestOutputBean>
    </soapenv:Body>
