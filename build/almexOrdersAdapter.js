@@ -19,6 +19,7 @@
           if (defaultValue == null) {
             defaultValue = "Sin datos";
           }
+          value = value != null ? value.trim() : void 0;
           if ((value != null ? value.length : void 0) > 0) {
             return value;
           } else {
