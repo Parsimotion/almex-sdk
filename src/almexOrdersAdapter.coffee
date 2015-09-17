@@ -7,6 +7,7 @@ module.exports =
 class AlmexOrdersAdapter
   getOutputBean: (order) =>
     valueOrDefault = (value, defaultValue = "Sin datos") =>
+      value = value?.trim()
       if value?.length > 0 then value
       else defaultValue
 
