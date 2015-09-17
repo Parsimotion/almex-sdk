@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.engine.ck.com/">
    <soapenv:Header>
       <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
