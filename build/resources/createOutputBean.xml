@@ -8,23 +8,23 @@
       <ws:requestOutputBean>
          <output>
             <direccion>
-               <calle>$calle</calle>
-               <colonia>$colonia</colonia>
-               <cp>$cp</cp>
+               <calle><![CDATA[$calle]]></calle>
+               <colonia><![CDATA[$colonia]]></colonia>
+               <cp><![CDATA[$cp]]></cp>
                <del_mun>DF</del_mun>
-               <estado>$estado</estado>
-               <nombreRecibe>$nombreRecibe</nombreRecibe>
+               <estado><![CDATA[$estado]]></estado>
+               <nombreRecibe><![CDATA[$nombreRecibe]]></nombreRecibe>
                <numeroExt> </numeroExt>
                <numeroInt> </numeroInt>
-               <referencias>$referencias</referencias>
-               <telefonoContacto1>$telefonoContacto1</telefonoContacto1>
+               <referencias><![CDATA[$referencias]]></referencias>
+               <telefonoContacto1><![CDATA[$telefonoContacto1]]></telefonoContacto1>
             </direccion>
-            <idPedido>$idPedido</idPedido>
+            <idPedido><![CDATA[$idPedido]]></idPedido>
             <idTipoSalida>5</idTipoSalida>
 $partidaList
-            <fechaEntrega>$fechaEntrega</fechaEntrega>
-            <cuenta>$accountId</cuenta>
-            <atributo1>$zpl2</atributo1>
+            <fechaEntrega><![CDATA[$fechaEntrega]]></fechaEntrega>
+            <cuenta><![CDATA[$accountId]]></cuenta>
+            <atributo1><![CDATA[$zpl2]]></atributo1>
          </output>
       </ws:requestOutputBean>
    </soapenv:Body>
