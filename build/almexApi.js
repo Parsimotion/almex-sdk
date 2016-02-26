@@ -1,5 +1,5 @@
 (function() {
-  var AlmexApi, AlmexInboundsAdapter, AlmexOrdersAdapter, Promise, XmlBuilder, read, req, xml2js, _,
+  var AlmexApi, AlmexInboundsAdapter, AlmexOrdersAdapter, Promise, XmlBuilder, almexBaseUrl, read, req, xml2js, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Promise = require("bluebird");
@@ -18,11 +18,13 @@
 
   _ = require("lodash");
 
+  almexBaseUrl = process.env.ALMEX_BASE_URL || "http://201.157.61.34:8989";
+
   module.exports = AlmexApi = (function() {
     function AlmexApi(credentials, url) {
       var auth;
       this.credentials = credentials;
-      this.url = url != null ? url : "http://201.157.61.34:8989/CkIntegracionGeneral";
+      this.url = url != null ? url : "" + almexBaseUrl + "/CkIntegracionGeneral";
       this._getResult = __bind(this._getResult, this);
       this._doRequest = __bind(this._doRequest, this);
       this.adaptPurchaseOrder = __bind(this.adaptPurchaseOrder, this);
