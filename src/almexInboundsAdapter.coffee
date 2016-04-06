@@ -19,3 +19,4 @@ class AlmexInboundsAdapter
       cantidad: product.quantity
       idWb: i + 1
       ean: product.barcode || "N/A"
+      validaSerie: if product.use_serial_numbers then 1 else 0
