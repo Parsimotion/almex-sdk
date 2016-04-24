@@ -28,7 +28,8 @@
               descripcion: product.description,
               cantidad: product.quantity,
               idWb: i + 1,
-              ean: product.barcode || "N/A"
+              ean: product.barcode || "N/A",
+              validaSerie: product.use_serial_numbers ? 1 : 0
             };
           };
         })(this))
