@@ -31,6 +31,7 @@
       this.adaptSalesOrder = __bind(this.adaptSalesOrder, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
+      this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
         return function(xml) {
@@ -45,6 +46,9 @@
           endpoint: "CkWService"
         },
         stocks: {
+          endpoint: "Jobs"
+        },
+        getPickingsAndChangeStatus: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -74,6 +78,22 @@
               name: it.descripcion[0],
               stock: it.cantidadInventario[0]
             });
+          });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.getPickingsAndChangeStatus = function() {
+      return this._doRequest(this.requests.getPickingsAndChangeStatus).then((function(_this) {
+        return function(xml) {
+          var pickings;
+          pickings = _this._getResult(xml, "changeOutcomeStatus");
+          return pickings.map(function(it) {
+            return {
+              order_id: it.idPedido[0],
+              product_id: it.idSku[0],
+              serial_number: it.serie[0]
+            };
           });
         };
       })(this));
