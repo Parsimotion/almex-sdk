@@ -23,6 +23,7 @@ class AlmexApi
       createInputBean: endpoint: "CkWService"
       createOutputBean: endpoint: "CkWService"
       stocks: endpoint: "Jobs"
+      getPickingsAndChangeStatus: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
       auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
@@ -41,6 +42,16 @@ class AlmexApi
           identifier: it.productoSku[0]
           name: it.descripcion[0]
           stock: it.cantidadInventario[0]
+
+
+  getPickingsAndChangeStatus: =>
+    @_doRequest(@requests.getPickingsAndChangeStatus).then (xml) =>
+      pickings = @_getResult xml, "changeOutcomeStatus"
+
+      pickings.map (it) =>
+        order_id: it.idPedido[0]
+        product_id: it.idSku[0]
+        serial_number: it.serie[0]
 
   ###
   Create an output bean.
