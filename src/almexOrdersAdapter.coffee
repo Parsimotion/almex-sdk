@@ -22,7 +22,7 @@ class AlmexOrdersAdapter
     partidaList: order.lines.map (line) =>
       cantidad: line.quantity
       idPartida: 1 #fixed
-      skuId: line.variation.barcode?.substring(0, 50) || ''
+      skuId: line.variation.barcode?.substring(0, 50) || '' # // TODO: Cambiar esto
     fechaEntrega: moment(order.date).format("YYYY-MM-DD")
     zpl2: order.zpl2
 
