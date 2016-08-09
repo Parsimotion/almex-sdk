@@ -18,7 +18,7 @@ class XmlBuilder
           else
             (value?.map (element) =>
               content = _(element)
-                .mapValues (value, key) => "<#{key}>#{value}</#{key}>"
+                .mapValues (value, key) => "<#{key}>><![CDATA[#{value}]]></#{key}>"
                 .values()
                 .join ""
               "<#{key}>#{content}</#{key}>"
