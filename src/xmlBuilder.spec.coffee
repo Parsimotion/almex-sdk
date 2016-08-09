@@ -26,7 +26,7 @@ describe "XmlBuilder", ->
           { sku: 56, quantity: 4 }
           { sku: 89, quantity: 1 }
         ]
-      .should.be.eql "<name>Rodri</name><products><sku>56</sku><quantity>4</quantity></products><products><sku>89</sku><quantity>1</quantity></products>"
+      .should.be.eql "<name>Rodri</name><products><sku><![CDATA[56]]></sku><quantity><![CDATA[4]]></quantity></products><products><sku><![CDATA[89]]></sku><quantity><![CDATA[1]]></quantity></products>"
 
   it "replaces null with empty strings", ->
     new XmlBuilder("<name>$name</name><location>$location</location>")

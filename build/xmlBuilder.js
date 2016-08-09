@@ -25,7 +25,7 @@
                   return function(element) {
                     var content;
                     content = _(element).mapValues(function(value, key) {
-                      return "<" + key + ">" + value + "</" + key + ">";
+                      return "<" + key + "><![CDATA[" + value + "]]></" + key + ">";
                     }).values().join("");
                     return "<" + key + ">" + content + "</" + key + ">";
                   };

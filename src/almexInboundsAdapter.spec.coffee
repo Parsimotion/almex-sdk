@@ -25,16 +25,18 @@ describe "AlmexInboundsAdapter", ->
       .should.eql
         id: 9
         fecha: "25/08/2015"
-        total: 2
+        total: 2  
         cantidadTotal: 6
         listProducto: [
           sku: "232"
+          validaSerie: 0
           descripcion: "Camiseta de River Plate"
           cantidad: 5
           idWb: 1
           ean: "B0CACACA"
         ,
           sku: "233"
+          validaSerie: 0
           descripcion: "Estampilla"
           cantidad: 1
           idWb: 2
