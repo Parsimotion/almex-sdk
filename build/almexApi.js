@@ -140,8 +140,8 @@
       products: [
         id: String
         quantity: Number
-        description: String
-        (barcode: String) # optional
+        name: String
+        (sku: String) # optional
       ]
     }
     options = { log: false }

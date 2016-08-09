@@ -11,13 +11,13 @@ describe "AlmexInboundsAdapter", ->
       products: [
         id: "232"
         quantity: 5
-        description: "Camiseta de River Plate"
-        barcode: "B0CACACA"
+        name: "Camiseta de River Plate"
+        sku: "B0CACACA"
       ,
         id: "233"
         quantity: 1
-        description: "Estampilla"
-        barcode: "0CA0CA"
+        name: "Estampilla"
+        sku: "0CA0CA"
       ]
 
     new AlmexInboundsAdapter()
@@ -25,7 +25,7 @@ describe "AlmexInboundsAdapter", ->
       .should.eql
         id: 9
         fecha: "25/08/2015"
-        total: 2  
+        total: 2
         cantidadTotal: 6
         listProducto: [
           sku: "232"

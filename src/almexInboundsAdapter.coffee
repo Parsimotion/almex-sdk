@@ -15,8 +15,8 @@ class AlmexInboundsAdapter
     cantidadTotal: _.sum inbound.products, "quantity"
     listProducto: inbound.products.map (product, i) =>
       sku: product.id
-      descripcion: product.description
+      descripcion: product.name
       cantidad: product.quantity
       idWb: i + 1
-      ean: product.barcode || "N/A"
+      ean: product.sku || "N/A"
       validaSerie: if product.use_serial_numbers then 1 else 0

@@ -24,7 +24,7 @@ describe "AlmexOrdersAdapter", ->
         "lines": [
             {
                 "variation": {
-                    "barcode": "MODEMWIFI22UNIQUE"
+                    "sku": "MODEMWIFI22UNIQUE"
                 },
                 "quantity": 1
             }
@@ -74,7 +74,7 @@ describe "AlmexOrdersAdapter", ->
         "lines": [
             {
                 "variation": {
-                    "barcode": "MODEMWIFI22UNIQUE"
+                    "sku": "MODEMWIFI22UNIQUE"
                 },
                 "quantity": 1
             }
