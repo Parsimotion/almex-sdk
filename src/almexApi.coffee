@@ -77,8 +77,8 @@ class AlmexApi
     products: [
       id: String
       quantity: Number
-      name: String
-      (sku: String) # optional
+      description: String
+      (barcode: String) # optional
     ]
   }
   options = { log: false }

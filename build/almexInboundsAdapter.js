@@ -25,10 +25,10 @@
           return function(product, i) {
             return {
               sku: product.id,
-              descripcion: product.name,
+              descripcion: product.description,
               cantidad: product.quantity,
               idWb: i + 1,
-              ean: product.sku || "N/A",
+              ean: product.barcode || "N/A",
               validaSerie: product.use_serial_numbers ? 1 : 0
             };
           };
