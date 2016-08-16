@@ -42,7 +42,7 @@
             return {
               cantidad: line.quantity,
               idPartida: 1,
-              skuId: ((_ref6 = line.variation.barcode) != null ? _ref6.substring(0, 50) : void 0) || ''
+              skuId: ((_ref6 = line.variation.sku) != null ? _ref6.substring(0, 50) : void 0) || ''
             };
           };
         })(this)),

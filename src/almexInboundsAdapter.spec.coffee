@@ -25,7 +25,7 @@ describe "AlmexInboundsAdapter", ->
       .should.eql
         id: 9
         fecha: "25/08/2015"
-        total: 2  
+        total: 2
         cantidadTotal: 6
         listProducto: [
           sku: "232"
