@@ -76,7 +76,8 @@
             return _.assign(it, {
               identifier: it.productoSku[0],
               name: it.descripcion[0],
-              stock: it.cantidadInventario[0]
+              stock: it.cantidadInventario[0],
+              availableQuantity: it.cantidad[0]
             });
           });
         };
