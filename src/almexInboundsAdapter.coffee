@@ -13,6 +13,7 @@ class AlmexInboundsAdapter
     fecha: moment(date).format("DD/MM/YYYY")
     total: inbound.products.length
     cantidadTotal: _.sum inbound.products, "quantity"
+    userId: inbound.user_id
     listProducto: inbound.products.map (product, i) =>
       sku: product.id
       descripcion: product.description

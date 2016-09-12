@@ -8,6 +8,7 @@ describe "AlmexInboundsAdapter", ->
     inbound =
       id: 9
       date: new Date("2015-08-25T19:38:45.237Z")
+      user_id: 1234
       products: [
         id: "232"
         quantity: 5
@@ -27,6 +28,7 @@ describe "AlmexInboundsAdapter", ->
         fecha: "25/08/2015"
         total: 2
         cantidadTotal: 6
+        userId: 1234
         listProducto: [
           sku: "232"
           validaSerie: 0
