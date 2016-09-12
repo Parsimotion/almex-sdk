@@ -15,7 +15,7 @@
                 <cantidadTotalSkus>$cantidadTotal</cantidadTotalSkus>
 
                 <idAlmacen>1256</idAlmacen>
-                <idProveedor>1</idProveedor>
+                <idProveedor>$userId</idProveedor>
 $listProducto
             </input>
       </ws:requestInputBean>

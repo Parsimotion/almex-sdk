@@ -21,6 +21,7 @@
         fecha: moment(date).format("DD/MM/YYYY"),
         total: inbound.products.length,
         cantidadTotal: _.sum(inbound.products, "quantity"),
+        userId: inbound.user_id,
         listProducto: inbound.products.map((function(_this) {
           return function(product, i) {
             return {
