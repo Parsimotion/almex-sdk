@@ -55,7 +55,7 @@ class AlmexApi
       incomes.map (income) =>
         inbound_id: incomes.idOdc
         received_quantity: parseInt incomes.cantidad
-        sku: incomes.idWb
+        product: incomes.idWb
 
   getPickingsAndChangeStatus: =>
     @_doRequest(@requests.getPickingsAndChangeStatus).then (xml) =>
