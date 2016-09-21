@@ -24,6 +24,7 @@ class AlmexApi
       createOutputBean: endpoint: "CkWService"
       stocks: endpoint: "Jobs"
       getPickingsAndChangeStatus: endpoint: "Jobs"
+      getIncomes: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
       auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
@@ -44,6 +45,17 @@ class AlmexApi
           stock: it.cantidadInventario[0]
           availableQuantity: it.cantidad[0]
 
+  ###
+  Retrieves all the enqueued incomes, and deletes them.
+  ###
+  getIncomes: =>
+    @_doRequest(@requests.getIncomes).then (xml) =>
+      incomes = @_getResult xml, "updateIncomes"
+
+      incomes.map (income) =>
+        inbound_id: incomes.idOdc
+        received_quantity: incomes.cantidad
+        sku: incomes.idWb
 
   getPickingsAndChangeStatus: =>
     @_doRequest(@requests.getPickingsAndChangeStatus).then (xml) =>
