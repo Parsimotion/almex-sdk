@@ -32,6 +32,7 @@
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
+      this.getIncomes = __bind(this.getIncomes, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
         return function(xml) {
@@ -49,6 +50,9 @@
           endpoint: "Jobs"
         },
         getPickingsAndChangeStatus: {
+          endpoint: "Jobs"
+        },
+        getIncomes: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -79,6 +83,27 @@
               stock: it.cantidadInventario[0],
               availableQuantity: it.cantidad[0]
             });
+          });
+        };
+      })(this));
+    };
+
+
+    /*
+    Retrieves all the enqueued incomes, and deletes them.
+     */
+
+    AlmexApi.prototype.getIncomes = function() {
+      return this._doRequest(this.requests.getIncomes).then((function(_this) {
+        return function(xml) {
+          var incomes;
+          incomes = _this._getResult(xml, "updateIncomes");
+          return incomes.map(function(income) {
+            return {
+              inbound_id: incomes.idOdc,
+              received_quantity: incomes.cantidad,
+              sku: incomes.idWb
+            };
           });
         };
       })(this));
