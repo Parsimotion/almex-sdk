@@ -50,7 +50,7 @@ class AlmexApi
   ###
   getIncomes: =>
     @_doRequest(@requests.getIncomes).then (xml) =>
-      incomes = @_getResult xml, "updateIncomes"
+      incomes = try @_getResult(xml, "updateIncomes") || []
 
       incomes.map (income) =>
         inbound_id: parseInt incomes.idOdc
