@@ -104,9 +104,9 @@
           }).call(_this)) || [];
           return incomes.map(function(income) {
             return {
-              inbound_id: parseInt(incomes.idOdc),
-              received_quantity: parseInt(incomes.cantidad),
-              product: parseInt(incomes.idWb)
+              inbound_id: parseInt(incomes.idOdc[0]),
+              received_quantity: parseInt(incomes.cantidad[0]),
+              product: parseInt(incomes.idWb[0])
             };
           });
         };
