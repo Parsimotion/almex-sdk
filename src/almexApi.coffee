@@ -53,7 +53,7 @@ class AlmexApi
       incomes = @_getResult xml, "updateIncomes"
 
       incomes.map (income) =>
-        inbound_id: incomes.idOdc
+        inbound_id: parseInt incomes.idOdc
         received_quantity: parseInt incomes.cantidad
         product: parseInt incomes.idWb
 

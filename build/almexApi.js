@@ -100,7 +100,7 @@
           incomes = _this._getResult(xml, "updateIncomes");
           return incomes.map(function(income) {
             return {
-              inbound_id: incomes.idOdc,
+              inbound_id: parseInt(incomes.idOdc),
               received_quantity: parseInt(incomes.cantidad),
               product: parseInt(incomes.idWb)
             };
