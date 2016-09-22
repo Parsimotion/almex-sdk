@@ -97,11 +97,11 @@
       return this._doRequest(this.requests.getIncomes).then((function(_this) {
         return function(xml) {
           var incomes;
-          incomes = (function() {
+          incomes = ((function() {
             try {
-              return this._getResult(xml, "updateIncomes") || [];
+              return this._getResult(xml, "updateIncomes");
             } catch (_error) {}
-          }).call(_this);
+          }).call(_this)) || [];
           return incomes.map(function(income) {
             return {
               inbound_id: parseInt(incomes.idOdc),
