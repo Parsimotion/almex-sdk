@@ -102,7 +102,7 @@
             return {
               inbound_id: incomes.idOdc,
               received_quantity: parseInt(incomes.cantidad),
-              product: incomes.idWb
+              product: parseInt(incomes.idWb)
             };
           });
         };
