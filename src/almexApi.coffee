@@ -53,9 +53,9 @@ class AlmexApi
       incomes = (try @_getResult xml, "updateIncomes") || []
 
       incomes.map (income) =>
-        inbound_id: parseInt incomes.idOdc[0]
-        received_quantity: parseInt incomes.cantidad[0]
-        product: parseInt incomes.idWb[0]
+        inbound_id: parseInt income.idOdc[0]
+        received_quantity: parseInt income.cantidad[0]
+        product: parseInt income.idWb[0]
 
   getPickingsAndChangeStatus: =>
     @_doRequest(@requests.getPickingsAndChangeStatus).then (xml) =>
