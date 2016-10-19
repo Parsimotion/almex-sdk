@@ -30,7 +30,8 @@
               cantidad: product.quantity,
               idWb: i + 1,
               ean: product.barcode || "N/A",
-              validaSerie: product.use_serial_numbers ? 1 : 0
+              validaSerie: product.use_serial_numbers ? 1 : 0,
+              imagen: product.pictureAsBase64 || ""
             };
           };
         })(this))
