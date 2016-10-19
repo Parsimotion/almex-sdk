@@ -8,7 +8,7 @@ AlmexOrdersAdapter = require("./almexOrdersAdapter")
 AlmexInboundsAdapter = require("./almexInboundsAdapter")
 _ = require("lodash")
 
-almexBaseUrl = process.env.ALMEX_BASE_URL or "http://201.157.61.34:8989"
+almexWsUrl = process.env.ALMEX_WS_URL or "http://201.157.61.34:8989/CkIntegracionGeneral"
 
 module.exports =
 #---
@@ -16,7 +16,7 @@ module.exports =
 # Almex Web Services.
 #   credentials = { username, password, accountId }
 class AlmexApi
-  constructor: (@credentials, @url = "#{almexBaseUrl}/CkIntegracionGeneral") ->
+  constructor: (@credentials, @url = almexWsUrl) ->
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
     @requests = _.mapValues {
