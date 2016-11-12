@@ -29,6 +29,7 @@
       this._doRequest = __bind(this._doRequest, this);
       this.adaptPurchaseOrder = __bind(this.adaptPurchaseOrder, this);
       this.adaptSalesOrder = __bind(this.adaptSalesOrder, this);
+      this.adaptSkus = __bind(this.adaptSkus, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
@@ -71,8 +72,12 @@
     Get all the stocks.
      */
 
-    AlmexApi.prototype.getStocks = function() {
-      return this._doRequest(this.requests.stocks).then((function(_this) {
+    AlmexApi.prototype.getStocks = function(skus) {
+      return this._doRequest(this.requests.stocks, (function(_this) {
+        return function() {
+          return _this.adaptSkus(skus);
+        };
+      })(this)).then((function(_this) {
         return function(xml) {
           var stocks;
           stocks = _this._getResult(xml, "ProductoInventarioMethod");
@@ -201,6 +206,16 @@
           return xml;
         };
       })(this));
+    };
+
+    AlmexApi.prototype.adaptSkus = function(skusToRetrieve) {
+      var params;
+      params = {
+        skus: skusToRetrieve.map(function(sku) {
+          return "<sku>" + sku + "</sku>";
+        }).join("")
+      };
+      return new XmlBuilder(this.requests.stocks.xml).buildWith(params);
     };
 
 

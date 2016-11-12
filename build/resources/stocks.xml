@@ -6,7 +6,8 @@
   </soap:Header>
   <soap:Body>
     <tns:ProductoInventarioMethod>
-      <arg0>$accountId</arg0>
+      <cuenta>$accountId</cuenta>
+      $skus      
     </tns:ProductoInventarioMethod>
   </soap:Body>
 </soap:Envelope>
