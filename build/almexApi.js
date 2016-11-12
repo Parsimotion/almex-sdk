@@ -81,7 +81,9 @@
         return function(xml) {
           var stocks;
           stocks = _this._getResult(xml, "ProductoInventarioMethod");
-          return stocks.map(function(it) {
+          return stocks.filter(function(it) {
+            return it.descripcion !== "No existe ningun registro con la orden especificada";
+          }).map(function(it) {
             return _.assign(it, {
               identifier: it.productoSku[0],
               name: it.descripcion[0],

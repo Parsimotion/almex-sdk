@@ -38,7 +38,9 @@ class AlmexApi
     @_doRequest(@requests.stocks, => @adaptSkus skus).then (xml) =>
       stocks = @_getResult xml, "ProductoInventarioMethod"
 
-      stocks.map (it) =>
+      stocks
+      .filter((it) -> it.descripcion != "No existe ningun registro con la orden especificada")
+      .map (it) =>
         _.assign it,
           identifier: it.productoSku[0]
           name: it.descripcion[0]
