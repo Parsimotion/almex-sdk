@@ -34,8 +34,8 @@ class AlmexApi
   ###
   Get all the stocks.
   ###
-  getStocks: =>
-    @_doRequest(@requests.stocks).then (xml) =>
+  getStocks: (skus) =>
+    @_doRequest(@requests.stocks, => @adaptSkus skus).then (xml) =>
       stocks = @_getResult xml, "ProductoInventarioMethod"
 
       stocks.map (it) =>
@@ -107,6 +107,10 @@ class AlmexApi
       if statusCode isnt "OK"
         throw new Error JSON.stringify xml
       xml
+
+  adaptSkus: (skusToRetrieve) =>
+    params = skus: skusToRetrieve.map((sku) -> "<sku>#{sku}</sku>").join("")
+    new XmlBuilder(@requests.stocks.xml).buildWith params
 
   ###
   Get the xml of a sales order.

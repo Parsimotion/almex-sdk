@@ -35,6 +35,7 @@ describe "AlmexInboundsAdapter", ->
           descripcion: "Camiseta de River Plate"
           cantidad: 5
           idWb: 1
+          imagen: ""
           ean: "B0CACACA"
         ,
           sku: "233"
@@ -42,5 +43,6 @@ describe "AlmexInboundsAdapter", ->
           descripcion: "Estampilla"
           cantidad: 1
           idWb: 2
+          imagen: ""
           ean: "0CA0CA"
         ]
