@@ -84,8 +84,9 @@
           return stocks.filter(function(it) {
             return it.descripcion !== "No existe ningun registro con la orden especificada";
           }).map(function(it) {
+            var _ref;
             return _.assign(it, {
-              identifier: it.productoSku[0],
+              identifier: (_ref = it.productoSku) != null ? _ref[0] : void 0,
               name: it.descripcion[0],
               stock: it.cantidadInventario[0],
               availableQuantity: it.cantidad[0]

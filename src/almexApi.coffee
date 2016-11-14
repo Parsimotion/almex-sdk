@@ -42,7 +42,7 @@ class AlmexApi
       .filter((it) -> it.descripcion != "No existe ningun registro con la orden especificada")
       .map (it) =>
         _.assign it,
-          identifier: it.productoSku[0]
+          identifier: it.productoSku?[0]
           name: it.descripcion[0]
           stock: it.cantidadInventario[0]
           availableQuantity: it.cantidad[0]
