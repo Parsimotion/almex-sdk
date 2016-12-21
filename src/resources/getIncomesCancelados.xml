@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:impl="http://impl.ws.ck.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <impl:updateIncomesCancelados>
+         <cuenta>300</cuenta>
+      </impl:updateIncomesCancelados>
+   </soapenv:Body>
+</soapenv:Envelope>
