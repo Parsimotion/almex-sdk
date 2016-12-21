@@ -251,8 +251,8 @@
       })(this)).then((function(_this) {
         return function(xml) {
           var message;
-          message = _this._getResult(xml, "requestCancelarOutput")[0];
-          if (message === "OK") {
+          message = _this._getResult(xml, "requestCancelarOutput")[0]._;
+          if (message === "OK" || message === "Pedido marcado para cancelar, esperar ingreso de mercancia") {
             return xml;
           }
           throw new Error(_.isEmpty(message) ? JSON.stringify(xml) : message);
