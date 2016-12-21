@@ -22,9 +22,11 @@ class AlmexApi
     @requests = _.mapValues {
       createInputBean: endpoint: "CkWService"
       createOutputBean: endpoint: "CkWService"
+      requestCancelarOutput: endpoint: "CkWService"
       stocks: endpoint: "Jobs"
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
+
     }, (val, name) => _.assign val, xml:
       auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
@@ -110,6 +112,17 @@ class AlmexApi
         throw new Error JSON.stringify xml
       xml
 
+  cancelOutputBean: (order) =>
+    cancelOutputXml = @adaptCancelOrder order
+    request = @requests.requestCancelarOutput
+
+    @_doRequest(request, => cancelOutputXml).then (xml) =>
+      message = @_getResult(xml, "requestCancelarOutput")[0]
+
+      return xml if message is "OK"
+
+      throw new Error if _.isEmpty message then JSON.stringify xml  else message
+
   adaptSkus: (skusToRetrieve) =>
     params = skus: skusToRetrieve.map((sku) -> "<sku>#{sku}</sku>").join("")
     new XmlBuilder(@requests.stocks.xml).buildWith params
@@ -127,6 +140,9 @@ class AlmexApi
   adaptPurchaseOrder: (inbound) =>
     inputBean = @inboundsAdapter.getInputBean inbound
     new XmlBuilder(@requests.createInputBean.xml).buildWith inputBean
+
+  adaptCancelOrder: (order) =>
+    new XmlBuilder(@requests.requestCancelarOutput.xml).buildWith order
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
