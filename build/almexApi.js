@@ -27,12 +27,15 @@
       this.url = url != null ? url : almexWsUrl;
       this._getResult = __bind(this._getResult, this);
       this._doRequest = __bind(this._doRequest, this);
+      this.adaptCancelOrder = __bind(this.adaptCancelOrder, this);
       this.adaptPurchaseOrder = __bind(this.adaptPurchaseOrder, this);
       this.adaptSalesOrder = __bind(this.adaptSalesOrder, this);
       this.adaptSkus = __bind(this.adaptSkus, this);
+      this.cancelOutputBean = __bind(this.cancelOutputBean, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
+      this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
       this.getIncomes = __bind(this.getIncomes, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
@@ -47,6 +50,9 @@
         createOutputBean: {
           endpoint: "CkWService"
         },
+        requestCancelarOutput: {
+          endpoint: "CkWService"
+        },
         stocks: {
           endpoint: "Jobs"
         },
@@ -54,6 +60,9 @@
           endpoint: "Jobs"
         },
         getIncomes: {
+          endpoint: "Jobs"
+        },
+        getIncomesCancelados: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -114,6 +123,26 @@
             return {
               inbound_id: parseInt(income.idOdc[0]),
               received_quantity: parseInt(income.cantidad[0]),
+              product: parseInt(income.idWb[0])
+            };
+          });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.getIncomesFromCancellations = function() {
+      return this._doRequest(this.requests.getIncomesCancelados).then((function(_this) {
+        return function(xml) {
+          var incomes;
+          incomes = ((function() {
+            try {
+              return this._getResult(xml, "updateIncomesCancelados");
+            } catch (_error) {}
+          }).call(_this)) || [];
+          return incomes.map(function(income) {
+            return {
+              order_id: parseInt(income.idOdc[0]),
+              cantidad: parseInt(income.cantidad[0]),
               product: parseInt(income.idWb[0])
             };
           });
@@ -211,6 +240,26 @@
       })(this));
     };
 
+    AlmexApi.prototype.cancelOutputBean = function(order) {
+      var cancelOutputXml, request;
+      cancelOutputXml = this.adaptCancelOrder(order);
+      request = this.requests.requestCancelarOutput;
+      return this._doRequest(request, (function(_this) {
+        return function() {
+          return cancelOutputXml;
+        };
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var message;
+          message = _this._getResult(xml, "requestCancelarOutput")[0];
+          if (message === "OK") {
+            return xml;
+          }
+          throw new Error(_.isEmpty(message) ? JSON.stringify(xml) : message);
+        };
+      })(this));
+    };
+
     AlmexApi.prototype.adaptSkus = function(skusToRetrieve) {
       var params;
       params = {
@@ -241,6 +290,10 @@
       var inputBean;
       inputBean = this.inboundsAdapter.getInputBean(inbound);
       return new XmlBuilder(this.requests.createInputBean.xml).buildWith(inputBean);
+    };
+
+    AlmexApi.prototype.adaptCancelOrder = function(order) {
+      return new XmlBuilder(this.requests.requestCancelarOutput.xml).buildWith(order);
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {
