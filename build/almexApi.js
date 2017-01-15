@@ -252,7 +252,7 @@
         return function(xml) {
           var message;
           message = _this._getResult(xml, "requestCancelarOutput")[0]._;
-          if (message === "OK" || message === "Pedido marcado para cancelar, esperar ingreso de mercancia") {
+          if (message === "OK" || message === "pedido cancelado exitosamente" || message === "Pedido marcado para cancelar, esperar ingreso de mercancia") {
             return xml;
           }
           throw new Error(_.isEmpty(message) ? JSON.stringify(xml) : message);
