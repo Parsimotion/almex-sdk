@@ -34,6 +34,7 @@
       this.cancelOutputBean = __bind(this.cancelOutputBean, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
+      this.getExtraOutcomes = __bind(this.getExtraOutcomes, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
       this.getIncomes = __bind(this.getIncomes, this);
@@ -63,6 +64,9 @@
           endpoint: "Jobs"
         },
         getIncomesCancelados: {
+          endpoint: "Jobs"
+        },
+        generateExtraOutcome: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -162,6 +166,22 @@
               serial_number: it.serie[0]
             };
           });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.getExtraOutcomes = function() {
+      var outcomes;
+      this._doRequest(this.requests.generateExtraOutcome).then((function(_this) {
+        return function(xml) {};
+      })(this));
+      outcomes = this._getResult(xml, "generateExtraOutcome");
+      return outcomes.map((function(_this) {
+        return function(it) {
+          return {
+            quantity: it.cantidad[0],
+            product: it.productoSku[0]
+          };
         };
       })(this));
     };

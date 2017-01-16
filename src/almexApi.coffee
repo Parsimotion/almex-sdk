@@ -27,7 +27,7 @@ class AlmexApi
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
-
+      generateExtraOutcome: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
       auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
 
@@ -79,6 +79,13 @@ class AlmexApi
         order_id: it.idPedido[0]
         product_id: it.idSku[0]
         serial_number: it.serie[0]
+
+  getExtraOutcomes: =>
+    @_doRequest(@requests.generateExtraOutcome).then (xml) =>
+    outcomes = @_getResult xml, "generateExtraOutcome"
+    outcomes.map (it) =>
+      quantity: it.cantidad[0]
+      product: it.productoSku[0]
 
   ###
   Create an output bean.
