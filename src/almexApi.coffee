@@ -129,7 +129,7 @@ class AlmexApi
     @_doRequest(request, => cancelOutputXml).then (xml) =>
       message = @_getResult(xml, "requestCancelarOutput")[0]._
 
-      return xml if message is "OK" or message is "pedido cancelado exitosamente" or message is "Pedido marcado para cancelar, esperar ingreso de mercancia"
+      return message if message is "OK" or message is "pedido cancelado exitosamente" or message is "Pedido marcado para cancelar, esperar ingreso de mercancia"
 
       throw new Error if _.isEmpty message then JSON.stringify xml  else message
 
