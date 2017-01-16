@@ -47,7 +47,8 @@
           };
         })(this)),
         fechaEntrega: moment(order.date).format("YYYY-MM-DD"),
-        zpl2: order.zpl2
+        zpl2: order.zpl2,
+        tracking_number: order.shipping.tracking_number
       };
     };
 
