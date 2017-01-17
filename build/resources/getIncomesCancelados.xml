@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:impl="http://impl.ws.ck.com/">
-  <soap:Header>
-    <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
-    <Password xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
-  </soap:Header>
+  <soapenv:Header>
+    <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
+    <Password xmlns="uri:com.ck.engine.ws" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
+  </soapenv:Header>
    <soapenv:Body>
       <impl:updateIncomesCancelados>
          <cuenta>$accountId</cuenta>
