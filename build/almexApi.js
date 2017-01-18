@@ -38,6 +38,7 @@
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
       this.getIncomes = __bind(this.getIncomes, this);
+      this.getStocksPaginated = __bind(this.getStocksPaginated, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
         return function(xml) {
@@ -55,6 +56,9 @@
           endpoint: "CkWService"
         },
         stocks: {
+          endpoint: "Jobs"
+        },
+        stocksPaginated: {
           endpoint: "Jobs"
         },
         getPickingsAndChangeStatus: {
@@ -82,7 +86,7 @@
 
 
     /*
-    Get all the stocks.
+    Get the stocks for the given skus.
      */
 
     AlmexApi.prototype.getStocks = function(skus) {
@@ -105,6 +109,46 @@
               availableQuantity: it.cantidad[0]
             });
           });
+        };
+      })(this));
+    };
+
+
+    /*
+    Get the stocks for the given skus.
+     */
+
+    AlmexApi.prototype.getStocksPaginated = function(page, top) {
+      var paginationXml;
+      if (page == null) {
+        page = 1;
+      }
+      if (top == null) {
+        top = 100;
+      }
+      paginationXml = this.adaptStocksPagination(page, top);
+      return this._doRequest(this.requests.stocksPaginated, (function(_this) {
+        return function() {
+          return paginationXml;
+        };
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var pagination;
+          pagination = _this._getResult(xml, "ProductoInventarioPaginacionMethod")[0];
+          return {
+            top: parseInt(pagination.cantidadFilas[0]),
+            page: parseInt(pagination.paginaActual[0]),
+            pageCount: parseInt(pagination.paginasTotales[0]),
+            results: pagination.productos.map(function(it) {
+              var _ref;
+              return {
+                identifier: (_ref = it.productoSku) != null ? _ref[0] : void 0,
+                name: it.descripcion[0],
+                stock: it.cantidadInventario[0],
+                availableQuantity: it.cantidad[0]
+              };
+            })
+          };
         };
       })(this));
     };
@@ -314,6 +358,13 @@
 
     AlmexApi.prototype.adaptCancelOrder = function(order) {
       return new XmlBuilder(this.requests.requestCancelarOutput.xml).buildWith(order);
+    };
+
+    AlmexApi.prototype.adaptStocksPagination = function(page, top) {
+      return new XmlBuilder(this.requests.stocksPaginated.xml).buildWith({
+        page: page,
+        top: top
+      });
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {

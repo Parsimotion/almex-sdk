@@ -24,6 +24,7 @@ class AlmexApi
       createOutputBean: endpoint: "CkWService"
       requestCancelarOutput: endpoint: "CkWService"
       stocks: endpoint: "Jobs"
+      stocksPaginated: endpoint: "Jobs"
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
@@ -35,7 +36,7 @@ class AlmexApi
     @inboundsAdapter = new AlmexInboundsAdapter()
 
   ###
-  Get all the stocks.
+  Get the stocks for the given skus.
   ###
   getStocks: (skus) =>
     @_doRequest(@requests.stocks, => @adaptSkus skus).then (xml) =>
@@ -49,6 +50,24 @@ class AlmexApi
           name: it.descripcion[0]
           stock: it.cantidadInventario[0]
           availableQuantity: it.cantidad[0]
+
+  ###
+  Get the stocks for the given skus.
+  ###
+  getStocksPaginated: (page = 1, top = 100) =>
+    paginationXml = @adaptStocksPagination page, top
+    @_doRequest(@requests.stocksPaginated, => paginationXml).then (xml) =>
+      pagination = @_getResult(xml, "ProductoInventarioPaginacionMethod")[0]
+      {
+        top: parseInt pagination.cantidadFilas[0]
+        page: parseInt pagination.paginaActual[0]
+        pageCount: parseInt pagination.paginasTotales[0]
+        results: pagination.productos.map (it) ->
+          identifier: it.productoSku?[0]
+          name: it.descripcion[0]
+          stock: it.cantidadInventario[0]
+          availableQuantity: it.cantidad[0]
+      }
 
   ###
   Retrieves all the enqueued incomes, and deletes them.
@@ -160,6 +179,9 @@ class AlmexApi
 
   adaptCancelOrder: (order) =>
     new XmlBuilder(@requests.requestCancelarOutput.xml).buildWith order
+
+  adaptStocksPagination: (page, top) ->
+    new XmlBuilder(@requests.stocksPaginated.xml).buildWith { page, top }
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
