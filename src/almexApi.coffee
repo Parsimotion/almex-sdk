@@ -48,7 +48,7 @@ class AlmexApi
         _.assign it,
           identifier: it.productoSku?[0]
           name: it.descripcion[0]
-          stock: it.cantidadInventario[0]
+          stock: (it.cantidadInventario?[0] or 0) + (it.cantidadSurtida?[0] or 0)
           availableQuantity: it.cantidad[0]
 
   ###

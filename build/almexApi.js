@@ -101,11 +101,11 @@
           return stocks.filter(function(it) {
             return it.descripcion !== "No existe ningun registro con la orden especificada";
           }).map(function(it) {
-            var _ref;
+            var _ref, _ref1, _ref2;
             return _.assign(it, {
               identifier: (_ref = it.productoSku) != null ? _ref[0] : void 0,
               name: it.descripcion[0],
-              stock: it.cantidadInventario[0],
+              stock: (((_ref1 = it.cantidadInventario) != null ? _ref1[0] : void 0) || 0) + (((_ref2 = it.cantidadSurtida) != null ? _ref2[0] : void 0) || 0),
               availableQuantity: it.cantidad[0]
             });
           });
