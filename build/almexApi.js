@@ -215,17 +215,16 @@
     };
 
     AlmexApi.prototype.getExtraOutcomes = function() {
-      var outcomes;
-      this._doRequest(this.requests.generateExtraOutcome).then((function(_this) {
-        return function(xml) {};
-      })(this));
-      outcomes = this._getResult(xml, "generateExtraOutcome");
-      return outcomes.map((function(_this) {
-        return function(it) {
-          return {
-            quantity: it.cantidad[0],
-            product: it.productoSku[0]
-          };
+      return this._doRequest(this.requests.generateExtraOutcome).then((function(_this) {
+        return function(xml) {
+          var outcomes;
+          outcomes = _this._getResult(xml, "generateExtraOutcome");
+          return outcomes.map(function(it) {
+            return {
+              quantity: it.cantidad[0],
+              product: it.productoSku[0]
+            };
+          });
         };
       })(this));
     };

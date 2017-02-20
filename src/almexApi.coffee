@@ -101,10 +101,10 @@ class AlmexApi
 
   getExtraOutcomes: =>
     @_doRequest(@requests.generateExtraOutcome).then (xml) =>
-    outcomes = @_getResult xml, "generateExtraOutcome"
-    outcomes.map (it) =>
-      quantity: it.cantidad[0]
-      product: it.productoSku[0]
+      outcomes = @_getResult xml, "generateExtraOutcome"
+      outcomes.map (it) =>
+        quantity: it.cantidad[0]
+        product: it.productoSku[0]
 
   ###
   Create an output bean.
