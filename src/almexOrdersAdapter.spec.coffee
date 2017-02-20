@@ -32,7 +32,13 @@ describe "AlmexOrdersAdapter", ->
         "date": "2015-04-15T19:38:58",
         "notes": "Es un pedido muy importante!!!",
         "zpl2": "Bla bla bla bla (etiqueta de envío)",
-        "id": 1227
+        "id": 1227,
+        "customId": 1212,
+        "shipping": {
+            "trackingNumber": "1020304050",
+            "service": "DHL",
+            "priority": 1
+        }
       }
 
     JSON.stringify(new AlmexOrdersAdapter().getOutputBean(order)).should.eql JSON.stringify
@@ -51,6 +57,10 @@ describe "AlmexOrdersAdapter", ->
         ]
         fechaEntrega: "2015-04-15"
         zpl2: "Bla bla bla bla (etiqueta de envío)"
+        customId: 1212
+        trackingNumber: "1020304050"
+        service: "DHL"
+        priority: 1
 
   it "trims and replaces empty properties for Sin Datos", ->
     order =

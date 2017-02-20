@@ -25,7 +25,10 @@ $partidaList
             <fechaEntrega><![CDATA[$fechaEntrega]]></fechaEntrega>
             <cuenta><![CDATA[$accountId]]></cuenta>
             <atributo1><![CDATA[$zpl2]]></atributo1>
-            <guia><![CDATA[$tracking_number]]></guia>
+            <guia><![CDATA[$trackingNumber]]></guia>
+            <claveTransporte><![CDATA[$service]]></claveTransporte>
+            <referenciaSalidaCliente><![CDATA[$customId]]></referenciaSalidaCliente>
+            <salidaPrioridad><![CDATA[$priority]]></salidaPrioridad>
          </output>
       </ws:requestOutputBean>
    </soapenv:Body>

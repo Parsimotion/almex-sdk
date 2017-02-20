@@ -25,7 +25,10 @@ class AlmexOrdersAdapter
       skuId: line.variation.sku?.substring(0, 50) || ''
     fechaEntrega: moment(order.date).format("YYYY-MM-DD")
     zpl2: order.zpl2
-    tracking_number: order.shipping?.tracking_number
+    customId: order.customId
+    trackingNumber: order.shipping?.trackingNumber
+    service: order.shipping?.service
+    priority: order.shipping?.priority
 
   _buildAddress: (location) =>
     address = "#{location.streetName} #{location.streetNumber}"
