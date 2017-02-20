@@ -13,7 +13,7 @@
     }
 
     AlmexOrdersAdapter.prototype.getOutputBean = function(order) {
-      var valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
+      var valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
       valueOrDefault = (function(_this) {
         return function(value, defaultValue) {
           if (defaultValue == null) {
@@ -48,7 +48,10 @@
         })(this)),
         fechaEntrega: moment(order.date).format("YYYY-MM-DD"),
         zpl2: order.zpl2,
-        tracking_number: (_ref6 = order.shipping) != null ? _ref6.tracking_number : void 0
+        customId: order.customId,
+        trackingNumber: (_ref6 = order.shipping) != null ? _ref6.trackingNumber : void 0,
+        service: (_ref7 = order.shipping) != null ? _ref7.service : void 0,
+        priority: (_ref8 = order.shipping) != null ? _ref8.priority : void 0
       };
     };
 
