@@ -35,9 +35,7 @@ describe "AlmexOrdersAdapter", ->
         "id": 1227
       }
 
-    new AlmexOrdersAdapter()
-      .getOutputBean(order)
-      .should.eql
+    JSON.stringify(new AlmexOrdersAdapter().getOutputBean(order)).should.eql JSON.stringify
         calle: "Ramón Falcón 6111"
         colonia: "Avellaneda"
         cp: "1408"
@@ -85,9 +83,7 @@ describe "AlmexOrdersAdapter", ->
         "id": 1227
       }
 
-    new AlmexOrdersAdapter()
-      .getOutputBean(order)
-      .should.eql
+    JSON.stringify(new AlmexOrdersAdapter().getOutputBean(order)).should.eql JSON.stringify
         calle: "Ramón Falcón 6111"
         colonia: "Sin datos"
         cp: "1408"
