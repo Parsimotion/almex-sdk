@@ -51,13 +51,14 @@ getStocksReponse = """<?xml version="1.0" ?>
 
 expectedCancelOutputBeans = """<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.engine.ck.com/">\n    <soapenv:Header>\n        <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">username</Usuario>\n        <Password xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">password</Password>\n    </soapenv:Header>\n   <soapenv:Body>\n      <ws:requestCancelarOutput>\n         <cancelarOutputBean>\n            <elementos>\n               <idPedido>12345678</idPedido>\n               <idCuenta>300</idCuenta>\n            </elementos>\n         </cancelarOutputBean>\n      </ws:requestCancelarOutput>\n   </soapenv:Body>\n</soapenv:Envelope>"""
 
-cancelOutputBeanResponse = "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">
+cancelOutputBeanResponse = """<?xml version="1.0" ?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
    <S:Body>
-      <ns2:requestCancelarOutputResponse xmlns:ns2=\"http://ws.engine.ck.com/\">
-         <return>OK</return>
+      <ns2:requestCancelarOutputResponse xmlns:ns2="http://ws.engine.ck.com/">
+         <return xmlns="">OK</return>
       </ns2:requestCancelarOutputResponse>
    </S:Body>
-</S:Envelope>"
+</S:Envelope>"""
 
 expectedStocks = [
   {
@@ -74,7 +75,7 @@ expectedStocks = [
     talla: [ 'G' ]
     identifier: '10001'
     name: 'PLAYERA MANGA CORTA  CUELLO V BASICA'
-    stock: '1'
+    stock: 1
     availableQuantity: '1'
   }
   {
@@ -91,7 +92,7 @@ expectedStocks = [
     talla: [ '30' ]
     identifier: '10002'
     name: 'BERMUDA SLIM DENIM STRETCH MODELAJE'
-    stock: '3'
+    stock: 3
     availableQuantity: '3'
   }
 ]
