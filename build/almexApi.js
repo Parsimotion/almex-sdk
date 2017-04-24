@@ -293,12 +293,12 @@
         };
       })(this)).then((function(_this) {
         return function(xml) {
-          var statusCode;
-          statusCode = _this._getResult(xml, "requestInputBean")[0]._;
-          if (statusCode !== "OK") {
-            throw new Error(JSON.stringify(xml));
+          var message;
+          message = _this._getResult(xml, "requestInputBean")[0]._;
+          if (message === "OK" || message === "ERROR,  BR-005 idOc enviada anteriormente") {
+            return xml;
           }
-          return xml;
+          throw new Error(JSON.stringify(xml));
         };
       })(this));
     };

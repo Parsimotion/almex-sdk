@@ -142,11 +142,10 @@ class AlmexApi
 
     if options.log? then console.log inputBeanXml
     @_doRequest(request, => inputBeanXml).then (xml) =>
-      statusCode = @_getResult(xml, "requestInputBean")[0]._
+      message = @_getResult(xml, "requestInputBean")[0]._
 
-      if statusCode isnt "OK"
-        throw new Error JSON.stringify xml
-      xml
+      return xml if message is "OK" or message is "ERROR,  BR-005 idOc enviada anteriormente"
+      throw new Error JSON.stringify xml
 
   cancelOutputBean: (order) =>
     cancelOutputXml = @adaptCancelOrder order
