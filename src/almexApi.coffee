@@ -28,6 +28,7 @@ class AlmexApi
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
       updateIncomesNoUpd: endpoint: "Jobs"
+      confirmacionOc: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
@@ -92,6 +93,17 @@ class AlmexApi
         inbound_id: parseInt income.idOdc[0]
         received_quantity: parseInt income.cantidad[0]
         product: parseInt income.idWb[0]
+
+  confirmacionOc: (inboundId, idParcial) =>
+    confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial
+    request = @requests.confirmacionOc
+
+    @_doRequest(request, => confirmacionOcXml).then (xml) =>
+      statusCode = @_getResult(xml, "confirmacionOc")[0]._
+
+      if statusCode isnt "OK"
+        throw new Error JSON.stringify xml
+      xml
 
   getIncomesFromCancellations: =>
     @_doRequest(@requests.getIncomesCancelados).then (xml) =>
@@ -193,6 +205,9 @@ class AlmexApi
 
   adaptStocksPagination: (page, top) ->
     new XmlBuilder(@requests.stocksPaginated.xml).buildWith { page, top }
+
+  adaptConfirmacionOc: (inboundId, idParcial) ->
+    new XmlBuilder(@requests.confirmacionOc.xml).buildWith { inboundId, idParcial }
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
