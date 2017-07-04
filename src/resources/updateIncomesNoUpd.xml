@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:impl="http://impl.ws.ck.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Header>
+    <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
+    <Password xmlns="uri:com.ck.engine.ws" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
+  </soap:Header>
+  <soap:Body>
+      <impl:updateIncomesNoUpd>
+         <arg0>$accountId</arg0>
+      </impl:updateIncomesNoUpd>
+  </soap:Body>
+</soap:Envelope>
+

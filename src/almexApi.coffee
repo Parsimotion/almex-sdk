@@ -27,6 +27,7 @@ class AlmexApi
       stocksPaginated: endpoint: "Jobs"
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
+      updateIncomesNoUpd: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
@@ -77,6 +78,17 @@ class AlmexApi
       incomes = (try @_getResult xml, "updateIncomes") || []
 
       incomes.map (income) =>
+        inbound_id: parseInt income.idOdc[0]
+        received_quantity: parseInt income.cantidad[0]
+        product: parseInt income.idWb[0]
+
+  updateIncomesNoUpd: =>
+    @_doRequest(@requests.updateIncomesNoUpd).then (xml) =>
+      incomes = (try @_getResult xml, "updateIncomesNoUpd") || []
+
+      incomes.filter (income) => income.edoCalId[0] is "A"
+      .map (income) =>
+        id_parcial: income.idParcial[0]
         inbound_id: parseInt income.idOdc[0]
         received_quantity: parseInt income.cantidad[0]
         product: parseInt income.idWb[0]
