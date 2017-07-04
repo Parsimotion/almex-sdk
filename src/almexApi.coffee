@@ -216,6 +216,7 @@ class AlmexApi
       headers: "Content-Type": "text/xml"
 
     req.postAsync(params).spread (response) =>
+      throw new Error "server_error" if statusCode >= 500
       xml2js.parseStringAsync response.body
 
   _getResult: (xml, method) =>
