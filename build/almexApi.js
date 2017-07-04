@@ -37,6 +37,8 @@
       this.getExtraOutcomes = __bind(this.getExtraOutcomes, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
+      this.confirmacionOc = __bind(this.confirmacionOc, this);
+      this.updateIncomesNoUpd = __bind(this.updateIncomesNoUpd, this);
       this.getIncomes = __bind(this.getIncomes, this);
       this.getStocksPaginated = __bind(this.getStocksPaginated, this);
       this.getStocks = __bind(this.getStocks, this);
@@ -65,6 +67,12 @@
           endpoint: "Jobs"
         },
         getIncomes: {
+          endpoint: "Jobs"
+        },
+        updateIncomesNoUpd: {
+          endpoint: "Jobs"
+        },
+        confirmacionOc: {
           endpoint: "Jobs"
         },
         getIncomesCancelados: {
@@ -174,6 +182,49 @@
               product: parseInt(income.idWb[0])
             };
           });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.updateIncomesNoUpd = function() {
+      return this._doRequest(this.requests.updateIncomesNoUpd).then((function(_this) {
+        return function(xml) {
+          var incomes;
+          incomes = ((function() {
+            try {
+              return this._getResult(xml, "updateIncomesNoUpd");
+            } catch (_error) {}
+          }).call(_this)) || [];
+          return incomes.filter(function(income) {
+            return income.edoCalId[0] === "A";
+          }).map(function(income) {
+            return {
+              id_parcial: income.idParcial[0],
+              inbound_id: parseInt(income.idOdc[0]),
+              received_quantity: parseInt(income.cantidad[0]),
+              product: parseInt(income.idWb[0])
+            };
+          });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.confirmacionOc = function(inboundId, idParcial) {
+      var confirmacionOcXml, request;
+      confirmacionOcXml = this.adaptConfirmacionOc(inboundId, idParcial);
+      request = this.requests.confirmacionOc;
+      return this._doRequest(request, (function(_this) {
+        return function() {
+          return confirmacionOcXml;
+        };
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var statusCode;
+          statusCode = _this._getResult(xml, "confirmacionOc")[0]._;
+          if (statusCode !== "OK") {
+            throw new Error(JSON.stringify(xml));
+          }
+          return xml;
         };
       })(this));
     };
@@ -366,6 +417,13 @@
       });
     };
 
+    AlmexApi.prototype.adaptConfirmacionOc = function(inboundId, idParcial) {
+      return new XmlBuilder(this.requests.confirmacionOc.xml).buildWith({
+        inboundId: inboundId,
+        idParcial: idParcial
+      });
+    };
+
     AlmexApi.prototype._doRequest = function(request, adapt) {
       var params;
       if (adapt == null) {
@@ -384,6 +442,9 @@
       };
       return req.postAsync(params).spread((function(_this) {
         return function(response) {
+          if (statusCode >= 500) {
+            throw new Error("server_error");
+          }
           return xml2js.parseStringAsync(response.body);
         };
       })(this));
