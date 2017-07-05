@@ -196,7 +196,7 @@
             } catch (_error) {}
           }).call(_this)) || [];
           return incomes.filter(function(income) {
-            return income.edoCalId[0] === "A";
+            return income.estadoCalidad[0] === "A";
           }).map(function(income) {
             return {
               id_parcial: income.idParcial[0],
