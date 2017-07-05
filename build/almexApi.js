@@ -202,7 +202,8 @@
               id_parcial: income.idParcial[0],
               inbound_id: parseInt(income.idOdc[0]),
               received_quantity: parseInt(income.cantidad[0]),
-              product: parseInt(income.idWb[0])
+              product: parseInt(income.idWb[0]),
+              reg_id: parseInt(income.regId[0])
             };
           });
         };
@@ -442,7 +443,7 @@
       };
       return req.postAsync(params).spread((function(_this) {
         return function(response) {
-          if (statusCode >= 500) {
+          if (response.statusCode >= 500) {
             throw new Error("server_error");
           }
           return xml2js.parseStringAsync(response.body);

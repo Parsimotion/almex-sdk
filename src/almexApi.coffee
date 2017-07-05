@@ -93,6 +93,7 @@ class AlmexApi
         inbound_id: parseInt income.idOdc[0]
         received_quantity: parseInt income.cantidad[0]
         product: parseInt income.idWb[0]
+        reg_id: parseInt income.regId[0]
 
   confirmacionOc: (inboundId, idParcial) =>
     confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial
