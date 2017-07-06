@@ -102,7 +102,7 @@ class AlmexApi
     @_doRequest(request, => confirmacionOcXml).then (xml) =>
       statusCode = @_getResult(xml, "confirmacionOc")[0]._
 
-      if statusCode isnt "OK"
+      if statusCode.indexOf("OK") == -1
         throw new Error JSON.stringify xml
       xml
 

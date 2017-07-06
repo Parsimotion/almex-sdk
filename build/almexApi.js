@@ -222,7 +222,7 @@
         return function(xml) {
           var statusCode;
           statusCode = _this._getResult(xml, "confirmacionOc")[0]._;
-          if (statusCode !== "OK") {
+          if (statusCode.indexOf("OK") === -1) {
             throw new Error(JSON.stringify(xml));
           }
           return xml;
