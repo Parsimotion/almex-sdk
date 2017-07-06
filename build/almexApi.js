@@ -195,15 +195,14 @@
               return this._getResult(xml, "updateIncomesNoUpd");
             } catch (_error) {}
           }).call(_this)) || [];
-          return incomes.filter(function(income) {
-            return income.estadoCalidad[0] === "A";
-          }).map(function(income) {
+          return incomes.map(function(income) {
             return {
               id_parcial: income.idParcial[0],
               inbound_id: parseInt(income.idOdc[0]),
               received_quantity: parseInt(income.cantidad[0]),
               product: parseInt(income.idWb[0]),
-              reg_id: parseInt(income.regId[0])
+              reg_id: parseInt(income.regId[0]),
+              estado_calidad: income.estadoCalidad[0]
             };
           });
         };

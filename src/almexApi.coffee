@@ -87,13 +87,13 @@ class AlmexApi
     @_doRequest(@requests.updateIncomesNoUpd).then (xml) =>
       incomes = (try @_getResult xml, "updateIncomesNoUpd") || []
 
-      incomes.filter (income) => income.estadoCalidad[0] is "A"
-      .map (income) =>
+      incomes.map (income) =>
         id_parcial: income.idParcial[0]
         inbound_id: parseInt income.idOdc[0]
         received_quantity: parseInt income.cantidad[0]
         product: parseInt income.idWb[0]
         reg_id: parseInt income.regId[0]
+        estado_calidad: income.estadoCalidad[0]
 
   confirmacionOc: (inboundId, idParcial) =>
     confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial
