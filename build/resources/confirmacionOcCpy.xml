@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:impl="http://impl.ws.ck.com/">
+  <soapenv:Header>
+    <Usuario xmlns="uri:com.ck.engine.ws" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">$username</Usuario>
+    <Password xmlns="uri:com.ck.engine.ws" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">$password</Password>
+  </soapenv:Header>
+  <soapenv:Body>
+   <impl:confirmacionOcCpy>
+      <idOdc>$inboundId</idOdc>
+      <cuentaId>$accountId</cuentaId>
+      <wmsParcial>$idParcial</wmsParcial>
+   </impl:confirmacionOcCpy>
+  </soapenv:Body>
+</soapenv:Envelope>
