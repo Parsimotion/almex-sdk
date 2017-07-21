@@ -37,7 +37,11 @@
       this.getExtraOutcomes = __bind(this.getExtraOutcomes, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
+      this._confirmacionOc = __bind(this._confirmacionOc, this);
+      this.confirmacionOcCpy = __bind(this.confirmacionOcCpy, this);
       this.confirmacionOc = __bind(this.confirmacionOc, this);
+      this._updateIncomesNoUpd = __bind(this._updateIncomesNoUpd, this);
+      this.updateIncomesNoUpdCpy = __bind(this.updateIncomesNoUpdCpy, this);
       this.updateIncomesNoUpd = __bind(this.updateIncomesNoUpd, this);
       this.getIncomes = __bind(this.getIncomes, this);
       this.getStocksPaginated = __bind(this.getStocksPaginated, this);
@@ -72,7 +76,13 @@
         updateIncomesNoUpd: {
           endpoint: "Jobs"
         },
+        updateIncomesNoUpdCpy: {
+          endpoint: "Jobs"
+        },
         confirmacionOc: {
+          endpoint: "Jobs"
+        },
+        confirmacionOcCpy: {
           endpoint: "Jobs"
         },
         getIncomesCancelados: {
@@ -187,12 +197,20 @@
     };
 
     AlmexApi.prototype.updateIncomesNoUpd = function() {
+      return this._updateIncomesNoUpd("updateIncomesNoUpd");
+    };
+
+    AlmexApi.prototype.updateIncomesNoUpdCpy = function() {
+      return this._updateIncomesNoUpd("updateIncomesNoUpdCpy");
+    };
+
+    AlmexApi.prototype._updateIncomesNoUpd = function(method) {
       return this._doRequest(this.requests.updateIncomesNoUpd).then((function(_this) {
         return function(xml) {
           var incomes;
           incomes = ((function() {
             try {
-              return this._getResult(xml, "updateIncomesNoUpd");
+              return this._getResult(xml, method);
             } catch (_error) {}
           }).call(_this)) || [];
           return incomes.map(function(income) {
@@ -210,8 +228,16 @@
     };
 
     AlmexApi.prototype.confirmacionOc = function(inboundId, idParcial) {
+      return this._confirmacionOc(inboundId, idParcial, "confirmacionOc");
+    };
+
+    AlmexApi.prototype.confirmacionOcCpy = function(inboundId, idParcial) {
+      return this._confirmacionOc(inboundId, idParcial, "confirmacionOcCpy");
+    };
+
+    AlmexApi.prototype._confirmacionOc = function(inboundId, idParcial, method) {
       var confirmacionOcXml, request;
-      confirmacionOcXml = this.adaptConfirmacionOc(inboundId, idParcial);
+      confirmacionOcXml = this.adaptConfirmacionOc(inboundId, idParcial, method);
       request = this.requests.confirmacionOc;
       return this._doRequest(request, (function(_this) {
         return function() {
@@ -220,7 +246,7 @@
       })(this)).then((function(_this) {
         return function(xml) {
           var statusCode;
-          statusCode = _this._getResult(xml, "confirmacionOc")[0]._;
+          statusCode = _this._getResult(xml, method)[0]._;
           if (statusCode.indexOf("OK") === -1) {
             throw new Error(JSON.stringify(xml));
           }
@@ -417,8 +443,8 @@
       });
     };
 
-    AlmexApi.prototype.adaptConfirmacionOc = function(inboundId, idParcial) {
-      return new XmlBuilder(this.requests.confirmacionOc.xml).buildWith({
+    AlmexApi.prototype.adaptConfirmacionOc = function(inboundId, idParcial, method) {
+      return new XmlBuilder(this.requests[method].xml).buildWith({
         inboundId: inboundId,
         idParcial: idParcial
       });

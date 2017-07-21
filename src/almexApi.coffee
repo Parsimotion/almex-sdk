@@ -28,7 +28,9 @@ class AlmexApi
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
       updateIncomesNoUpd: endpoint: "Jobs"
+      updateIncomesNoUpdCpy: endpoint: "Jobs"
       confirmacionOc: endpoint: "Jobs"
+      confirmacionOcCpy: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
     }, (val, name) => _.assign val, xml:
@@ -84,8 +86,14 @@ class AlmexApi
         product: parseInt income.idWb[0]
 
   updateIncomesNoUpd: =>
+    @_updateIncomesNoUpd "updateIncomesNoUpd"
+
+  updateIncomesNoUpdCpy: =>
+    @_updateIncomesNoUpd "updateIncomesNoUpdCpy"
+
+  _updateIncomesNoUpd: (method) =>
     @_doRequest(@requests.updateIncomesNoUpd).then (xml) =>
-      incomes = (try @_getResult xml, "updateIncomesNoUpd") || []
+      incomes = (try @_getResult xml, method) || []
 
       incomes.map (income) =>
         id_parcial: income.idParcial[0]
@@ -96,11 +104,17 @@ class AlmexApi
         estado_calidad: income.estadoCalidad[0]
 
   confirmacionOc: (inboundId, idParcial) =>
-    confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial
+    @_confirmacionOc inboundId, idParcial, "confirmacionOc"
+
+  confirmacionOcCpy: (inboundId, idParcial) =>
+    @_confirmacionOc inboundId, idParcial, "confirmacionOcCpy"
+
+  _confirmacionOc: (inboundId, idParcial, method) =>
+    confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial, method
     request = @requests.confirmacionOc
 
     @_doRequest(request, => confirmacionOcXml).then (xml) =>
-      statusCode = @_getResult(xml, "confirmacionOc")[0]._
+      statusCode = @_getResult(xml, method)[0]._
 
       if statusCode.indexOf("OK") == -1
         throw new Error JSON.stringify xml
@@ -207,8 +221,8 @@ class AlmexApi
   adaptStocksPagination: (page, top) ->
     new XmlBuilder(@requests.stocksPaginated.xml).buildWith { page, top }
 
-  adaptConfirmacionOc: (inboundId, idParcial) ->
-    new XmlBuilder(@requests.confirmacionOc.xml).buildWith { inboundId, idParcial }
+  adaptConfirmacionOc: (inboundId, idParcial, method) ->
+    new XmlBuilder(@requests[method].xml).buildWith { inboundId, idParcial }
 
   _doRequest: (request, adapt = (i) => i) =>
     params =
