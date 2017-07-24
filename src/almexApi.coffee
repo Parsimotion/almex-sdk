@@ -92,7 +92,7 @@ class AlmexApi
     @_updateIncomesNoUpd "updateIncomesNoUpdCpy"
 
   _updateIncomesNoUpd: (method) =>
-    @_doRequest(@requests.updateIncomesNoUpd).then (xml) =>
+    @_doRequest(@requests[method]).then (xml) =>
       incomes = (try @_getResult xml, method) || []
 
       incomes.map (income) =>
@@ -111,7 +111,7 @@ class AlmexApi
 
   _confirmacionOc: (inboundId, idParcial, method) =>
     confirmacionOcXml = @adaptConfirmacionOc inboundId, idParcial, method
-    request = @requests.confirmacionOc
+    request = @requests[method]
 
     @_doRequest(request, => confirmacionOcXml).then (xml) =>
       statusCode = @_getResult(xml, method)[0]._

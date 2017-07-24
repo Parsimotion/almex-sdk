@@ -205,7 +205,7 @@
     };
 
     AlmexApi.prototype._updateIncomesNoUpd = function(method) {
-      return this._doRequest(this.requests.updateIncomesNoUpd).then((function(_this) {
+      return this._doRequest(this.requests[method]).then((function(_this) {
         return function(xml) {
           var incomes;
           incomes = ((function() {
@@ -238,7 +238,7 @@
     AlmexApi.prototype._confirmacionOc = function(inboundId, idParcial, method) {
       var confirmacionOcXml, request;
       confirmacionOcXml = this.adaptConfirmacionOc(inboundId, idParcial, method);
-      request = this.requests.confirmacionOc;
+      request = this.requests[method];
       return this._doRequest(request, (function(_this) {
         return function() {
           return confirmacionOcXml;
