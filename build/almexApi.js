@@ -114,7 +114,7 @@
     AlmexApi.prototype.getStocks = function(skus) {
       return this._doRequest(this.requests.stocks, (function(_this) {
         return function() {
-          return _this.adaptSkus(skus);
+          return _this.adaptSkus(skus, _this.requests.stocks);
         };
       })(this)).then((function(_this) {
         return function(xml) {
@@ -143,7 +143,7 @@
     AlmexApi.prototype.getStocksCalidad = function(skus) {
       return this._doRequest(this.requests.stocksCalidad, (function(_this) {
         return function() {
-          return _this.adaptSkus(skus);
+          return _this.adaptSkus(skus, _this.requests.stocksCalidad);
         };
       })(this)).then((function(_this) {
         return function(xml) {
@@ -440,14 +440,14 @@
       })(this));
     };
 
-    AlmexApi.prototype.adaptSkus = function(skusToRetrieve) {
+    AlmexApi.prototype.adaptSkus = function(skusToRetrieve, request) {
       var params;
       params = {
         skus: skusToRetrieve.map(function(sku) {
           return "<sku>" + sku + "</sku>";
         }).join("")
       };
-      return new XmlBuilder(this.requests.stocks.xml).buildWith(params);
+      return new XmlBuilder(request.xml).buildWith(params);
     };
 
 

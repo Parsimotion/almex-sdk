@@ -44,7 +44,7 @@ class AlmexApi
   Get the stocks for the given skus.
   ###
   getStocks: (skus) =>
-    @_doRequest(@requests.stocks, => @adaptSkus skus).then (xml) =>
+    @_doRequest(@requests.stocks, => @adaptSkus skus, @requests.stocks).then (xml) =>
       stocks = @_getResult xml, "ProductoInventarioMethod"
 
       stocks
@@ -59,7 +59,7 @@ class AlmexApi
   Get the stocks for the given skus.
   ###
   getStocksCalidad: (skus) =>
-    @_doRequest(@requests.stocksCalidad, => @adaptSkus skus).then (xml) =>
+    @_doRequest(@requests.stocksCalidad, => @adaptSkus skus, @requests.stocksCalidad).then (xml) =>
       stocks = @_getResult xml, "ProductoInventarioMethodEdoCal"
 
       stocks
@@ -215,9 +215,9 @@ class AlmexApi
 
       throw new Error if _.isEmpty message then JSON.stringify xml  else message
 
-  adaptSkus: (skusToRetrieve) =>
+  adaptSkus: (skusToRetrieve, request) =>
     params = skus: skusToRetrieve.map((sku) -> "<sku>#{sku}</sku>").join("")
-    new XmlBuilder(@requests.stocks.xml).buildWith params
+    new XmlBuilder(request.xml).buildWith params
 
   ###
   Get the xml of a sales order.
