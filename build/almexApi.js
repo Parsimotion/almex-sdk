@@ -18,7 +18,7 @@
 
   _ = require("lodash");
 
-  almexWsUrl = process.env.ALMEX_WS_URL || "http://201.157.61.34:8989/CkIntegracionGeneral";
+  almexWsUrl = process.env.ALMEX_WS_URL || "http://138.128.190.226:8085/CkIntegracionGeneral";
 
   module.exports = AlmexApi = (function() {
     function AlmexApi(credentials, url) {
@@ -45,6 +45,7 @@
       this.updateIncomesNoUpd = __bind(this.updateIncomesNoUpd, this);
       this.getIncomes = __bind(this.getIncomes, this);
       this.getStocksPaginated = __bind(this.getStocksPaginated, this);
+      this.getStocksCalidad = __bind(this.getStocksCalidad, this);
       this.getStocks = __bind(this.getStocks, this);
       auth = (function(_this) {
         return function(xml) {
@@ -62,6 +63,9 @@
           endpoint: "CkWService"
         },
         stocks: {
+          endpoint: "Jobs"
+        },
+        stocksCalidad: {
           endpoint: "Jobs"
         },
         stocksPaginated: {
@@ -125,6 +129,42 @@
               name: it.descripcion[0],
               stock: parseInt(((_ref1 = it.cantidadInventario) != null ? _ref1[0] : void 0) || 0) + parseInt(((_ref2 = it.cantidadSurtida) != null ? _ref2[0] : void 0) || 0),
               availableQuantity: it.cantidad[0]
+            });
+          });
+        };
+      })(this));
+    };
+
+
+    /*
+    Get the stocks for the given skus.
+     */
+
+    AlmexApi.prototype.getStocksCalidad = function(skus) {
+      return this._doRequest(this.requests.stocksCalidad, (function(_this) {
+        return function() {
+          return _this.adaptSkus(skus);
+        };
+      })(this)).then((function(_this) {
+        return function(xml) {
+          var stocks;
+          stocks = _this._getResult(xml, "ProductoInventarioMethodEdoCal");
+          return stocks.filter(function(it) {
+            return it.descripcion !== "No existe ningun registro con la orden especificada";
+          }).map(function(product) {
+            var findByCalidad, _ref, _ref1;
+            findByCalidad = function(edo) {
+              var _ref;
+              return (_ref = _.find(product.calidad, function(it) {
+                return it.edo[0] === edo;
+              })) != null ? _ref.cantidad[0] : void 0;
+            };
+            return _.assign(product, {
+              identifier: (_ref = product.productoSku) != null ? _ref[0] : void 0,
+              name: product.descripcion[0],
+              stock: parseInt(findByCalidad("A") || 0) + parseInt(((_ref1 = product.cantidadSurtir) != null ? _ref1[0] : void 0) || 0),
+              quarantine_stock: parseInt(findByCalidad("Q") || 0),
+              damaged_stock: parseInt(findByCalidad("D") || 0)
             });
           });
         };

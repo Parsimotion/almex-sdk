@@ -8,7 +8,7 @@ AlmexOrdersAdapter = require("./almexOrdersAdapter")
 AlmexInboundsAdapter = require("./almexInboundsAdapter")
 _ = require("lodash")
 
-almexWsUrl = process.env.ALMEX_WS_URL or "http://201.157.61.34:8989/CkIntegracionGeneral"
+almexWsUrl = process.env.ALMEX_WS_URL or "http://138.128.190.226:8085/CkIntegracionGeneral"
 
 module.exports =
 #---
@@ -24,6 +24,7 @@ class AlmexApi
       createOutputBean: endpoint: "CkWService"
       requestCancelarOutput: endpoint: "CkWService"
       stocks: endpoint: "Jobs"
+      stocksCalidad: endpoint: "Jobs"
       stocksPaginated: endpoint: "Jobs"
       getPickingsAndChangeStatus: endpoint: "Jobs"
       getIncomes: endpoint: "Jobs"
@@ -54,6 +55,23 @@ class AlmexApi
           name: it.descripcion[0]
           stock: parseInt(it.cantidadInventario?[0] or 0) + parseInt(it.cantidadSurtida?[0] or 0)
           availableQuantity: it.cantidad[0]
+  ###
+  Get the stocks for the given skus.
+  ###
+  getStocksCalidad: (skus) =>
+    @_doRequest(@requests.stocksCalidad, => @adaptSkus skus).then (xml) =>
+      stocks = @_getResult xml, "ProductoInventarioMethodEdoCal"
+
+      stocks
+      .filter((it) -> it.descripcion != "No existe ningun registro con la orden especificada")
+      .map (product) =>
+        findByCalidad = (edo) -> _.find(product.calidad, (it) -> it.edo[0] is edo)?.cantidad[0]
+        _.assign product,
+          identifier: product.productoSku?[0]
+          name: product.descripcion[0]
+          stock: parseInt(findByCalidad("A") or 0) + parseInt(product.cantidadSurtir?[0] or 0)
+          quarantine_stock: parseInt(findByCalidad("Q") or 0)
+          damaged_stock: parseInt(findByCalidad("D") or 0)
 
   ###
   Get the stocks for the given skus.

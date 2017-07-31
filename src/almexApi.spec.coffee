@@ -102,14 +102,14 @@ describe "AlmexApi", ->
     nock.cleanAll()
 
   it "can retrieve the stocks of a given list of skus", ->
-    nock("http://201.157.61.34:8989/CkIntegracionGeneral").post("/Jobs", expectedGetStocksXml).reply 200, getStocksReponse
+    nock("http://138.128.190.226:8085/CkIntegracionGeneral").post("/Jobs", expectedGetStocksXml).reply 200, getStocksReponse
 
     almexApi = new AlmexApi username: "username", password: "password", accountId: 300
     almexApi.getStocks(["10001","10002"]).then (response) ->
       response.should.eql expectedStocks
 
   it "can cancel an order", ->
-    expected = nock("http://201.157.61.34:8989/CkIntegracionGeneral").post("/CkWService", expectedCancelOutputBeans).reply 200, cancelOutputBeanResponse
+    expected = nock("http://138.128.190.226:8085/CkIntegracionGeneral").post("/CkWService", expectedCancelOutputBeans).reply 200, cancelOutputBeanResponse
 
     almexApi = new AlmexApi username: "username", password: "password", accountId: 300
     almexApi.cancelOutputBean(id: 12345678).then ->
