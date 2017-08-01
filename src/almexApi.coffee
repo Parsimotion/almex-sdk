@@ -7,6 +7,7 @@ XmlBuilder = require("./xmlBuilder")
 AlmexOrdersAdapter = require("./almexOrdersAdapter")
 AlmexInboundsAdapter = require("./almexInboundsAdapter")
 _ = require("lodash")
+Logger = require("./logger")
 
 almexWsUrl = process.env.ALMEX_WS_URL or "http://138.128.190.226:8085/CkIntegracionGeneral"
 
@@ -16,7 +17,7 @@ module.exports =
 # Almex Web Services.
 #   credentials = { username, password, accountId }
 class AlmexApi
-  constructor: (@credentials, @url = almexWsUrl) ->
+  constructor: (@credentials, @url = almexWsUrl, loggerOptions) ->
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
     @requests = _.mapValues {
@@ -34,11 +35,15 @@ class AlmexApi
       confirmacionOcCpy: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
-    }, (val, name) => _.assign val, xml:
-      auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
+    }, (val, name) =>
+      _.assign val,
+        xml:
+          auth read "#{__dirname}/resources/#{name}.xml", "utf-8"
+        name: name
 
     @ordersAdapter = new AlmexOrdersAdapter()
     @inboundsAdapter = new AlmexInboundsAdapter()
+    @logger = new Logger(loggerOptions, @requests)
 
   ###
   Get the stocks for the given skus.
@@ -243,12 +248,15 @@ class AlmexApi
     new XmlBuilder(@requests[method].xml).buildWith { inboundId, idParcial }
 
   _doRequest: (request, adapt = (i) => i) =>
+    xml = adapt request.xml
+
     params =
       url: "#{@url}/#{request.endpoint}"
-      body: adapt request.xml
+      body: xml
       headers: "Content-Type": "text/xml"
 
     req.postAsync(params).spread (response) =>
+      @logger.info request.name, xml, response.statusCode, response.body
       throw new Error "server_error" if response.statusCode >= 500
       xml2js.parseStringAsync response.body
 

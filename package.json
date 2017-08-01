@@ -5,13 +5,15 @@
     "type": "git",
     "url": "git://github.com/Parsimotion/almex-sdk.git"
   },
-  "version": "3.0.32",
+  "version": "3.0.33",
   "main": "build/almexApi.js",
   "dependencies": {
     "bluebird": "^2.3.11",
     "lodash": "^3.10.0",
     "moment": "^2.10.6",
     "request": "^2.78.0",
+    "winston": "^2.3.1",
+    "winston-azure-blob-transport": "^0.2.5",
     "xml2js": "^0.4.10"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 (function() {
-  var AlmexApi, AlmexInboundsAdapter, AlmexOrdersAdapter, Promise, XmlBuilder, almexWsUrl, read, req, xml2js, _,
+  var AlmexApi, AlmexInboundsAdapter, AlmexOrdersAdapter, Logger, Promise, XmlBuilder, almexWsUrl, read, req, xml2js, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Promise = require("bluebird");
@@ -18,10 +18,12 @@
 
   _ = require("lodash");
 
+  Logger = require("./logger");
+
   almexWsUrl = process.env.ALMEX_WS_URL || "http://138.128.190.226:8085/CkIntegracionGeneral";
 
   module.exports = AlmexApi = (function() {
-    function AlmexApi(credentials, url) {
+    function AlmexApi(credentials, url, loggerOptions) {
       var auth;
       this.credentials = credentials;
       this.url = url != null ? url : almexWsUrl;
@@ -98,12 +100,14 @@
       }, (function(_this) {
         return function(val, name) {
           return _.assign(val, {
-            xml: auth(read("" + __dirname + "/resources/" + name + ".xml", "utf-8"))
+            xml: auth(read("" + __dirname + "/resources/" + name + ".xml", "utf-8")),
+            name: name
           });
         };
       })(this));
       this.ordersAdapter = new AlmexOrdersAdapter();
       this.inboundsAdapter = new AlmexInboundsAdapter();
+      this.logger = new Logger(loggerOptions, this.requests);
     }
 
 
@@ -491,7 +495,7 @@
     };
 
     AlmexApi.prototype._doRequest = function(request, adapt) {
-      var params;
+      var params, xml;
       if (adapt == null) {
         adapt = (function(_this) {
           return function(i) {
@@ -499,15 +503,17 @@
           };
         })(this);
       }
+      xml = adapt(request.xml);
       params = {
         url: "" + this.url + "/" + request.endpoint,
-        body: adapt(request.xml),
+        body: xml,
         headers: {
           "Content-Type": "text/xml"
         }
       };
       return req.postAsync(params).spread((function(_this) {
         return function(response) {
+          _this.logger.info(request.name, xml, response.statusCode, response.body);
           if (response.statusCode >= 500) {
             throw new Error("server_error");
           }
