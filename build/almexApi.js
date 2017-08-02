@@ -156,7 +156,7 @@
           return stocks.filter(function(it) {
             return it.descripcion !== "No existe ningun registro con la orden especificada";
           }).map(function(product) {
-            var findByCalidad, _ref, _ref1;
+            var findByCalidad, _ref, _ref1, _ref2;
             findByCalidad = function(edo) {
               var _ref;
               return (_ref = _.find(product.calidad, function(it) {
@@ -166,7 +166,7 @@
             return _.assign(product, {
               identifier: (_ref = product.productoSku) != null ? _ref[0] : void 0,
               name: product.descripcion[0],
-              stock: parseInt(findByCalidad("A") || 0) + parseInt(((_ref1 = product.cantidadSurtir) != null ? _ref1[0] : void 0) || 0),
+              stock: parseInt(findByCalidad("A") || 0) + parseInt(((_ref1 = product.cantidadSurtir) != null ? _ref1[0] : void 0) || 0) + parseInt(((_ref2 = product.cantidadSurtida) != null ? _ref2[0] : void 0) || 0),
               quarantine_stock: parseInt(findByCalidad("Q") || 0),
               damaged_stock: parseInt(findByCalidad("D") || 0)
             });

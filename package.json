@@ -5,7 +5,7 @@
     "type": "git",
     "url": "git://github.com/Parsimotion/almex-sdk.git"
   },
-  "version": "3.0.34",
+  "version": "3.0.35",
   "main": "build/almexApi.js",
   "dependencies": {
     "bluebird": "^2.3.11",
