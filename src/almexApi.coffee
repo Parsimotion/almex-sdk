@@ -74,7 +74,7 @@ class AlmexApi
         _.assign product,
           identifier: product.productoSku?[0]
           name: product.descripcion[0]
-          stock: parseInt(findByCalidad("A") or 0) + parseInt(product.cantidadSurtir?[0] or 0)
+          stock: parseInt(findByCalidad("A") or 0) + parseInt(product.cantidadSurtir?[0] or 0) + parseInt(product.cantidadSurtida?[0] or 0)
           quarantine_stock: parseInt(findByCalidad("Q") or 0)
           damaged_stock: parseInt(findByCalidad("D") or 0)
 
