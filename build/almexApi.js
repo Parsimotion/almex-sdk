@@ -156,17 +156,19 @@
           return stocks.filter(function(it) {
             return it.descripcion !== "No existe ningun registro con la orden especificada";
           }).map(function(product) {
-            var findByCalidad, _ref, _ref1, _ref2;
+            var findByCalidad, reserved, _ref, _ref1, _ref2;
             findByCalidad = function(edo) {
               var _ref;
               return (_ref = _.find(product.calidad, function(it) {
                 return it.edo[0] === edo;
               })) != null ? _ref.cantidad[0] : void 0;
             };
+            reserved = parseInt(((_ref = product.cantidadSurtir) != null ? _ref[0] : void 0) || 0) + parseInt(((_ref1 = product.cantidadSurtida) != null ? _ref1[0] : void 0) || 0);
             return _.assign(product, {
-              identifier: (_ref = product.productoSku) != null ? _ref[0] : void 0,
+              identifier: (_ref2 = product.productoSku) != null ? _ref2[0] : void 0,
               name: product.descripcion[0],
-              stock: parseInt(findByCalidad("A") || 0) + parseInt(((_ref1 = product.cantidadSurtir) != null ? _ref1[0] : void 0) || 0) + parseInt(((_ref2 = product.cantidadSurtida) != null ? _ref2[0] : void 0) || 0),
+              stock: parseInt(findByCalidad("A") || 0) + reserved,
+              reserved: reserved,
               quarantine_stock: parseInt(findByCalidad("Q") || 0),
               damaged_stock: parseInt(findByCalidad("D") || 0)
             });
