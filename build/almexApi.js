@@ -36,6 +36,7 @@
       this.cancelOutputBean = __bind(this.cancelOutputBean, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
+      this.getInboundsToBeProcessed = __bind(this.getInboundsToBeProcessed, this);
       this.getExtraOutcomes = __bind(this.getExtraOutcomes, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
       this.getIncomesFromCancellations = __bind(this.getIncomesFromCancellations, this);
@@ -95,6 +96,9 @@
           endpoint: "Jobs"
         },
         generateExtraOutcome: {
+          endpoint: "Jobs"
+        },
+        asignaFactura: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -346,6 +350,20 @@
             return {
               quantity: it.cantidad[0],
               product: it.productoSku[0]
+            };
+          });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.getInboundsToBeProcessed = function() {
+      return this._doRequest(this.requests.asignaFactura).then((function(_this) {
+        return function(xml) {
+          var inbounds;
+          inbounds = _this._getResult(xml, "asignaFactura");
+          return inbounds.map(function(it) {
+            return {
+              id: it.idodc[0]
             };
           });
         };

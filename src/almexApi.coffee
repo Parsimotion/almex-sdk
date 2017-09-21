@@ -35,6 +35,7 @@ class AlmexApi
       confirmacionOcCpy: endpoint: "Jobs"
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
+      asignaFactura: endpoint: "Jobs"
     }, (val, name) =>
       _.assign val,
         xml:
@@ -169,6 +170,13 @@ class AlmexApi
       outcomes.map (it) =>
         quantity: it.cantidad[0]
         product: it.productoSku[0]
+
+  getInboundsToBeProcessed: =>
+    @_doRequest(@requests.asignaFactura).then (xml) =>
+      inbounds = @_getResult xml, "asignaFactura"
+
+      inbounds.map (it) =>
+        id: it.idodc[0]
 
   ###
   Create an output bean.
