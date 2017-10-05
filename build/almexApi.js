@@ -385,7 +385,8 @@
               estado_calidad_origen: it.edoCalidadOrigen[0],
               estado_calidad_destino: it.estadoCalidadDestino[0],
               inbound_id: parseInt(it.idodc[0]),
-              product: parseInt(it.sku[0])
+              product: parseInt(it.sku[0]),
+              quantity: parseInt(it.cantidad[0])
             };
           });
         };

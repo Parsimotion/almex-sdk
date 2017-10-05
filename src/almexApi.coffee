@@ -188,6 +188,7 @@ class AlmexApi
         estado_calidad_destino: it.estadoCalidadDestino[0]
         inbound_id: parseInt it.idodc[0]
         product: parseInt it.sku[0]
+        quantity: parseInt it.cantidad[0]
 
   ###
   Create an output bean.
