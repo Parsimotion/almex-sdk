@@ -36,6 +36,7 @@
       this.cancelOutputBean = __bind(this.cancelOutputBean, this);
       this.createInputBean = __bind(this.createInputBean, this);
       this.createOutputBean = __bind(this.createOutputBean, this);
+      this.getTraspasosCambioCalidad = __bind(this.getTraspasosCambioCalidad, this);
       this.getInboundsToBeProcessed = __bind(this.getInboundsToBeProcessed, this);
       this.getExtraOutcomes = __bind(this.getExtraOutcomes, this);
       this.getPickingsAndChangeStatus = __bind(this.getPickingsAndChangeStatus, this);
@@ -99,6 +100,9 @@
           endpoint: "Jobs"
         },
         asignaFactura: {
+          endpoint: "Jobs"
+        },
+        traspasosCambioCalidad: {
           endpoint: "Jobs"
         }
       }, (function(_this) {
@@ -364,6 +368,24 @@
           return inbounds.map(function(it) {
             return {
               id: it.idodc[0]
+            };
+          });
+        };
+      })(this));
+    };
+
+    AlmexApi.prototype.getTraspasosCambioCalidad = function() {
+      return this._doRequest(this.requests.traspasosCambioCalidad).then((function(_this) {
+        return function(xml) {
+          var traspasos;
+          traspasos = _this._getResult(xml, "traspasosCambioCalidad");
+          return traspasos.map(function(it) {
+            return {
+              reg_id: it.regId[0],
+              estado_calidad_origen: it.edoCalidadOrigen[0],
+              estado_calidad_destino: it.estadoCalidadDestino[0],
+              inbound_id: it.idodc[0],
+              product: it.sku[0]
             };
           });
         };

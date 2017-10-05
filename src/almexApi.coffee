@@ -36,6 +36,7 @@ class AlmexApi
       getIncomesCancelados: endpoint: "Jobs"
       generateExtraOutcome: endpoint: "Jobs"
       asignaFactura: endpoint: "Jobs"
+      traspasosCambioCalidad: endpoint: "Jobs"
     }, (val, name) =>
       _.assign val,
         xml:
@@ -177,6 +178,16 @@ class AlmexApi
 
       inbounds.map (it) =>
         id: it.idodc[0]
+
+  getTraspasosCambioCalidad: =>
+    @_doRequest(@requests.traspasosCambioCalidad).then (xml) =>
+      traspasos = @_getResult xml, "traspasosCambioCalidad"
+      traspasos.map (it) ->
+        reg_id: it.regId[0] 
+        estado_calidad_origen: it.edoCalidadOrigen[0]
+        estado_calidad_destino: it.estadoCalidadDestino[0]
+        inbound_id: it.idodc[0]
+        product: it.sku[0]
 
   ###
   Create an output bean.
