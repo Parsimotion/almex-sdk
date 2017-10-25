@@ -167,18 +167,18 @@
             var findByCalidad, reserved, _ref, _ref1, _ref2;
             findByCalidad = function(edo) {
               var _ref;
-              return (_ref = _.find(product.calidad, function(it) {
+              return parseInt(((_ref = _.find(product.calidad, function(it) {
                 return it.edo[0] === edo;
-              })) != null ? _ref.cantidad[0] : void 0;
+              })) != null ? _ref.cantidad[0] : void 0) || 0);
             };
             reserved = parseInt(((_ref = product.cantidadSurtir) != null ? _ref[0] : void 0) || 0) + parseInt(((_ref1 = product.cantidadSurtida) != null ? _ref1[0] : void 0) || 0);
             return _.assign(product, {
               identifier: (_ref2 = product.productoSku) != null ? _ref2[0] : void 0,
               name: product.descripcion[0],
-              stock: parseInt(findByCalidad("A") || 0) + reserved,
+              stock: findByCalidad("A") + reserved,
               reserved: reserved,
-              quarantine_stock: parseInt(findByCalidad("Q") || 0),
-              damaged_stock: parseInt(findByCalidad("D") || 0)
+              quarantine_stock: findByCalidad("Q"),
+              damaged_stock: findByCalidad("D") + findByCalidad("DI") + findByCalidad("DO") + findByCalidad("NE")
             });
           });
         };

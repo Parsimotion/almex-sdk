@@ -72,15 +72,15 @@ class AlmexApi
       stocks
       .filter((it) -> it.descripcion != "No existe ningun registro con la orden especificada")
       .map (product) =>
-        findByCalidad = (edo) -> _.find(product.calidad, (it) -> it.edo[0] is edo)?.cantidad[0]
+        findByCalidad = (edo) -> parseInt _.find(product.calidad, (it) -> it.edo[0] is edo)?.cantidad[0] or 0
         reserved = parseInt(product.cantidadSurtir?[0] or 0) + parseInt(product.cantidadSurtida?[0] or 0)
         _.assign product,
           identifier: product.productoSku?[0]
           name: product.descripcion[0]
-          stock: parseInt(findByCalidad("A") or 0) + reserved
+          stock: findByCalidad("A") + reserved
           reserved: reserved
-          quarantine_stock: parseInt(findByCalidad("Q") or 0)
-          damaged_stock: parseInt(findByCalidad("D") or 0)
+          quarantine_stock: findByCalidad("Q")
+          damaged_stock: findByCalidad("D") + findByCalidad("DI") + findByCalidad("DO") + findByCalidad("NE")
 
   ###
   Get the stocks for the given skus.

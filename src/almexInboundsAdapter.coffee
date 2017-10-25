@@ -14,6 +14,7 @@ class AlmexInboundsAdapter
     total: inbound.products.length
     cantidadTotal: _.sum inbound.products, "quantity"
     userId: inbound.user_id
+    sellerName: inbound.user?.nickname
     listProducto: inbound.products.map (product, i) =>
       sku: product.id
       descripcion: product.description
@@ -22,3 +23,4 @@ class AlmexInboundsAdapter
       ean: product.barcode || "N/A"
       validaSerie: if product.use_serial_numbers then 1 else 0
       imagen: product.pictureAsBase64 or ""
+      publication: product.listing_id

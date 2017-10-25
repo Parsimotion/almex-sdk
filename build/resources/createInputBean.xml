@@ -16,6 +16,8 @@
 
                 <idAlmacen>1256</idAlmacen>
                 <idProveedor>$userId</idProveedor>
+                <idSeller>$userId</idSeller>
+                <selerName>$sellerName</selerName>
 $listProducto
             </input>
       </ws:requestInputBean>

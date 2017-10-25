@@ -14,7 +14,7 @@
     }
 
     AlmexInboundsAdapter.prototype.getInputBean = function(inbound) {
-      var date;
+      var date, _ref;
       date = inbound.date.toISOString();
       return {
         id: inbound.id,
@@ -22,6 +22,7 @@
         total: inbound.products.length,
         cantidadTotal: _.sum(inbound.products, "quantity"),
         userId: inbound.user_id,
+        sellerName: (_ref = inbound.user) != null ? _ref.nickname : void 0,
         listProducto: inbound.products.map((function(_this) {
           return function(product, i) {
             return {
@@ -31,7 +32,8 @@
               idWb: i + 1,
               ean: product.barcode || "N/A",
               validaSerie: product.use_serial_numbers ? 1 : 0,
-              imagen: product.pictureAsBase64 || ""
+              imagen: product.pictureAsBase64 || "",
+              publication: product.listing_id
             };
           };
         })(this))

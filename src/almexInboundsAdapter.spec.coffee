@@ -9,16 +9,20 @@ describe "AlmexInboundsAdapter", ->
       id: 9
       date: new Date("2015-08-25T19:38:45.237Z")
       user_id: 1234
+      user:
+        nickname: 'PREETAIL'
       products: [
         id: "232"
         quantity: 5
         description: "Camiseta de River Plate"
         barcode: "B0CACACA"
+        listing_id: "MLM1234"
       ,
         id: "233"
         quantity: 1
         description: "Estampilla"
         barcode: "0CA0CA"
+        listing_id: "MLM4321"
       ]
 
     new AlmexInboundsAdapter()
@@ -29,6 +33,7 @@ describe "AlmexInboundsAdapter", ->
         total: 2
         cantidadTotal: 6
         userId: 1234
+        sellerName: "PREETAIL"
         listProducto: [
           sku: "232"
           validaSerie: 0
@@ -37,6 +42,7 @@ describe "AlmexInboundsAdapter", ->
           idWb: 1
           imagen: ""
           ean: "B0CACACA"
+          publication: "MLM1234"
         ,
           sku: "233"
           validaSerie: 0
@@ -45,4 +51,5 @@ describe "AlmexInboundsAdapter", ->
           idWb: 2
           imagen: ""
           ean: "0CA0CA"
+          publication: "MLM4321"
         ]
