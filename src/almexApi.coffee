@@ -161,11 +161,11 @@ class AlmexApi
       pickings = @_getResult xml, "changeOutcomeStatus"
 
       pickings
-      .filter((it) => it.idStatusSalida?[0] is "14")
       .map (it) =>
         order_id: it.idPedido[0]
         product_id: it.idSku[0]
         serial_number: it.serie[0]
+        id_status_salida: idStatusSalida[0]
 
   getExtraOutcomes: =>
     @_doRequest(@requests.generateExtraOutcome).then (xml) =>
