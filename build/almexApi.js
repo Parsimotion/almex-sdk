@@ -334,7 +334,10 @@
         return function(xml) {
           var pickings;
           pickings = _this._getResult(xml, "changeOutcomeStatus");
-          return pickings.map(function(it) {
+          return pickings.filter(function(it) {
+            var _ref;
+            return ((_ref = it.idStatusSalida) != null ? _ref[0] : void 0) === "14";
+          }).map(function(it) {
             return {
               order_id: it.idPedido[0],
               product_id: it.idSku[0],
