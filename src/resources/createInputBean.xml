@@ -17,7 +17,7 @@
                 <idAlmacen>1256</idAlmacen>
                 <idProveedor>$userId</idProveedor>
                 <idSeller>$userId</idSeller>
-                <selerName>$sellerName</selerName>
+                <sellerName>$sellerName</sellerName>
 $listProducto
             </input>
       </ws:requestInputBean>
