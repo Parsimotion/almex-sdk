@@ -383,11 +383,12 @@
           var traspasos;
           traspasos = _this._getResult(xml, "traspasosCambioCalidad");
           return traspasos.map(function(it) {
+            var _ref;
             return {
               reg_id: it.regId[0],
               estado_calidad_origen: it.edoCalidadOrigen[0],
               estado_calidad_destino: it.estadoCalidadDestino[0],
-              inbound_id: parseInt(it.idodc[0]),
+              inbound_id: parseInt((_ref = it.idodc) != null ? _ref[0] : void 0),
               product: parseInt(it.sku[0]),
               quantity: parseInt(it.cantidad[0])
             };
