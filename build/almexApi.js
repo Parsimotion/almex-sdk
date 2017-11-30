@@ -212,12 +212,13 @@
             page: parseInt(pagination.paginaActual[0]),
             pageCount: parseInt(pagination.paginasTotales[0]),
             results: pagination.productos.map(function(it) {
-              var _ref;
+              var _ref, _ref1;
               return {
                 identifier: (_ref = it.productoSku) != null ? _ref[0] : void 0,
                 name: it.descripcion[0],
                 stock: it.cantidadInventario[0],
-                availableQuantity: it.cantidad[0]
+                availableQuantity: it.cantidad[0],
+                edoCalidad: ((_ref1 = it.edoCalidad) != null ? _ref1[0] : void 0) || "A"
               };
             })
           };

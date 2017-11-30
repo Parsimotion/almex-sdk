@@ -98,6 +98,7 @@ class AlmexApi
           name: it.descripcion[0]
           stock: it.cantidadInventario[0]
           availableQuantity: it.cantidad[0]
+          edoCalidad: it.edoCalidad?[0] or "A"
       }
 
   ###
