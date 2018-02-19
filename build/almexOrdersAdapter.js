@@ -37,11 +37,11 @@
         telefonoContacto1: valueOrDefault((_ref5 = order.contact.phoneNumber) != null ? _ref5.substring(0, 20) : void 0),
         idPedido: order.id,
         partidaList: order.lines.map((function(_this) {
-          return function(line) {
+          return function(line, index) {
             var _ref6;
             return {
               cantidad: line.quantity,
-              idPartida: 1,
+              idPartida: index + 1,
               skuId: ((_ref6 = line.variation.sku) != null ? _ref6.substring(0, 50) : void 0) || ''
             };
           };

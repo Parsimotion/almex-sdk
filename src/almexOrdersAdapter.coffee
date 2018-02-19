@@ -19,9 +19,9 @@ class AlmexOrdersAdapter
     referencias: valueOrDefault order.notes?.substring(0, 300)
     telefonoContacto1: valueOrDefault order.contact.phoneNumber?.substring(0, 20)
     idPedido: order.id
-    partidaList: order.lines.map (line) =>
+    partidaList: order.lines.map (line, index) =>
       cantidad: line.quantity
-      idPartida: 1 #fixed
+      idPartida: (index + 1)
       skuId: line.variation.sku?.substring(0, 50) || ''
     fechaEntrega: moment(order.date).format("YYYY-MM-DD")
     zpl2: order.zpl2
