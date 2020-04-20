@@ -34,7 +34,7 @@ class AlmexOrdersAdapter
 
     _.merge @_label(order), adaptedOrder
 
-  _label(order) => 
+  _label: (order) => 
     if order.zpl2
       { zpl2: order.zpl2 }
     else
