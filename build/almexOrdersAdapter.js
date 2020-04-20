@@ -1,19 +1,22 @@
 (function() {
-  var AlmexOrdersAdapter, XmlBuilder, moment,
+  var AlmexOrdersAdapter, XmlBuilder, moment, _,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   XmlBuilder = require("./xmlBuilder");
 
   moment = require("moment");
 
+  _ = require("lodash");
+
   module.exports = AlmexOrdersAdapter = (function() {
     function AlmexOrdersAdapter() {
       this._buildAddress = __bind(this._buildAddress, this);
+      this._label = __bind(this._label, this);
       this.getOutputBean = __bind(this.getOutputBean, this);
     }
 
     AlmexOrdersAdapter.prototype.getOutputBean = function(order) {
-      var valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
+      var adaptedOrder, valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
       valueOrDefault = (function(_this) {
         return function(value, defaultValue) {
           if (defaultValue == null) {
@@ -27,7 +30,7 @@
           }
         };
       })(this);
-      return {
+      adaptedOrder = {
         calle: ((_ref = order.contact.location) != null ? _ref.streetName : void 0) ? this._buildAddress(order.contact.location) : "Sin datos",
         colonia: valueOrDefault((_ref1 = order.contact.location) != null ? _ref1.city.substring(0, 250) : void 0),
         cp: valueOrDefault((_ref2 = order.contact.location) != null ? _ref2.zipCode : void 0, "1000"),
@@ -47,12 +50,24 @@
           };
         })(this)),
         fechaEntrega: moment(order.date).format("YYYY-MM-DD"),
-        zpl2: order.zpl2,
         customId: order.customId,
         trackingNumber: (_ref6 = order.shipping) != null ? _ref6.trackingNumber : void 0,
         service: (_ref7 = order.shipping) != null ? _ref7.service : void 0,
         priority: (_ref8 = order.shipping) != null ? _ref8.priority : void 0
       };
+      return _.merge(this._label(order), adaptedOrder);
+    };
+
+    AlmexOrdersAdapter.prototype._label = function(order) {
+      if (order.zpl2) {
+        return {
+          zpl2: order.zpl2
+        };
+      } else {
+        return {
+          guiaPdf: order.guiaPdf
+        };
+      }
     };
 
     AlmexOrdersAdapter.prototype._buildAddress = function(location) {
