@@ -21,6 +21,8 @@ class AlmexApi
     auth = (xml) => new XmlBuilder(xml).buildWith @credentials
 
     @requests = _.mapValues {
+      createOutputBeanZpl2: endpoint: "CkWService"
+      createOutputBeanGuiaPdf: endpoint: "CkWService"
       createInputBean: endpoint: "CkWService"
       createOutputBean: endpoint: "CkWService"
       requestCancelarOutput: endpoint: "CkWService"
@@ -254,7 +256,9 @@ class AlmexApi
   ###
   adaptSalesOrder: (order) =>
     outputBean = @ordersAdapter.getOutputBean order
-    new XmlBuilder(@requests.createOutputBean.xml).buildWith outputBean
+    labelType = if order.zpl2? then "Zpl2" else "GuiaPdf"
+    xmlTemplate = "createOutputBean#{labelType}"
+    new XmlBuilder(@requests[xmlTemplate].xml).buildWith outputBean
 
   ###
   Get the xml of a purchase order.

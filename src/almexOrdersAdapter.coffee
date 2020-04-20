@@ -11,27 +11,25 @@ class AlmexOrdersAdapter
       value = value?.trim()
       if value?.length > 0 then value
       else defaultValue
-    
-    adaptedOrder = 
-      calle: if order.contact.location?.streetName then @_buildAddress(order.contact.location) else "Sin datos"
-      colonia: valueOrDefault order.contact.location?.city.substring(0, 250)
-      cp: valueOrDefault order.contact.location?.zipCode, "1000"
-      estado: valueOrDefault order.contact.location?.state.substring(0, 250)
-      nombreRecibe: "#{order.contact.name || ''}|#{order.contact.contactPerson || ''}".substring(0, 100)
-      referencias: valueOrDefault order.notes?.substring(0, 300)
-      telefonoContacto1: valueOrDefault order.contact.phoneNumber?.substring(0, 20)
-      idPedido: order.id
-      partidaList: order.lines.map (line, index) =>
-        cantidad: line.quantity
-        idPartida: (index + 1)
-        skuId: line.variation.sku?.substring(0, 50) || ''
-      fechaEntrega: moment(order.date).format("YYYY-MM-DD")
-      customId: order.customId
-      trackingNumber: order.shipping?.trackingNumber
-      service: order.shipping?.service
-      priority: order.shipping?.priority
 
-    _.merge @_label(order), adaptedOrder
+    calle: if order.contact.location?.streetName then @_buildAddress(order.contact.location) else "Sin datos"
+    colonia: valueOrDefault order.contact.location?.city.substring(0, 250)
+    cp: valueOrDefault order.contact.location?.zipCode, "1000"
+    estado: valueOrDefault order.contact.location?.state.substring(0, 250)
+    nombreRecibe: "#{order.contact.name || ''}|#{order.contact.contactPerson || ''}".substring(0, 100)
+    referencias: valueOrDefault order.notes?.substring(0, 300)
+    telefonoContacto1: valueOrDefault order.contact.phoneNumber?.substring(0, 20)
+    idPedido: order.id
+    partidaList: order.lines.map (line, index) =>
+      cantidad: line.quantity
+      idPartida: (index + 1)
+      skuId: line.variation.sku?.substring(0, 50) || ''
+    fechaEntrega: moment(order.date).format("YYYY-MM-DD")
+    customId: order.customId
+    trackingNumber: order.shipping?.trackingNumber
+    service: order.shipping?.service
+    priority: order.shipping?.priority
+    label: _.get order, "zpl2", order.guiaPdf
 
   _label: (order) => 
     if order.zpl2
