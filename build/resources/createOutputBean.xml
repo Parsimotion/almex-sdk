@@ -24,7 +24,7 @@
 $partidaList
             <fechaEntrega><![CDATA[$fechaEntrega]]></fechaEntrega>
             <cuenta><![CDATA[$accountId]]></cuenta>
-            <atributo1><![CDATA[$zpl2]]></atributo1>
+            <atributo1><![CDATA[$label]]></atributo1>
             <guia><![CDATA[$trackingNumber]]></guia>
             <claveTransporte><![CDATA[$service]]></claveTransporte>
             <referenciaSalidaCliente><![CDATA[$customId]]></referenciaSalidaCliente>

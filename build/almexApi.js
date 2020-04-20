@@ -57,6 +57,12 @@
         };
       })(this);
       this.requests = _.mapValues({
+        createOutputBeanZpl2: {
+          endpoint: "CkWService"
+        },
+        createOutputBeanGuiaPdf: {
+          endpoint: "CkWService"
+        },
         createInputBean: {
           endpoint: "CkWService"
         },
@@ -508,9 +514,11 @@
      */
 
     AlmexApi.prototype.adaptSalesOrder = function(order) {
-      var outputBean;
+      var labelType, outputBean, xmlTemplate;
       outputBean = this.ordersAdapter.getOutputBean(order);
-      return new XmlBuilder(this.requests.createOutputBean.xml).buildWith(outputBean);
+      labelType = order.zpl2 != null ? "Zpl2" : "GuiaPdf";
+      xmlTemplate = "createOutputBean" + labelType;
+      return new XmlBuilder(this.requests[xmlTemplate].xml).buildWith(outputBean);
     };
 
 

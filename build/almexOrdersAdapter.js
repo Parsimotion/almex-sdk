@@ -16,7 +16,7 @@
     }
 
     AlmexOrdersAdapter.prototype.getOutputBean = function(order) {
-      var adaptedOrder, valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
+      var valueOrDefault, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
       valueOrDefault = (function(_this) {
         return function(value, defaultValue) {
           if (defaultValue == null) {
@@ -30,7 +30,7 @@
           }
         };
       })(this);
-      adaptedOrder = {
+      return {
         calle: ((_ref = order.contact.location) != null ? _ref.streetName : void 0) ? this._buildAddress(order.contact.location) : "Sin datos",
         colonia: valueOrDefault((_ref1 = order.contact.location) != null ? _ref1.city.substring(0, 250) : void 0),
         cp: valueOrDefault((_ref2 = order.contact.location) != null ? _ref2.zipCode : void 0, "1000"),
@@ -53,9 +53,9 @@
         customId: order.customId,
         trackingNumber: (_ref6 = order.shipping) != null ? _ref6.trackingNumber : void 0,
         service: (_ref7 = order.shipping) != null ? _ref7.service : void 0,
-        priority: (_ref8 = order.shipping) != null ? _ref8.priority : void 0
+        priority: (_ref8 = order.shipping) != null ? _ref8.priority : void 0,
+        label: _.get(order, "zpl2", order.guiaPdf)
       };
-      return _.merge(this._label(order), adaptedOrder);
     };
 
     AlmexOrdersAdapter.prototype._label = function(order) {
