@@ -26,7 +26,6 @@ class AlmexOrdersAdapter
         idPartida: (index + 1)
         skuId: line.variation.sku?.substring(0, 50) || ''
       fechaEntrega: moment(order.date).format("YYYY-MM-DD")
-      # zpl2: order.zpl2
       customId: order.customId
       trackingNumber: order.shipping?.trackingNumber
       service: order.shipping?.service
