@@ -9,7 +9,7 @@
   "main": "build/almexApi.js",
   "dependencies": {
     "bluebird": "^2.3.11",
-    "lodash": "^3.10.0",
+    "lodash": "^4.17.19",
     "moment": "^2.10.6",
     "request": "^2.78.0",
     "winston": "^2.3.1",
